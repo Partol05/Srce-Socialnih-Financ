@@ -812,6 +812,17 @@ async function showAdminPanel() {
     showSection('admin-panel');
     document.getElementById('adminLoading').style.display = 'block';
     
+    // Ajouter le bouton de déconnexion dans le header du panel admin
+    const adminHeader = document.querySelector('#admin-panel h2');
+    if (adminHeader && !adminHeader.querySelector('.logout-btn')) {
+        const logoutBtn = document.createElement('button');
+        logoutBtn.className = 'logout-btn';
+        logoutBtn.innerHTML = '🚪 Odjava';
+        logoutBtn.style.cssText = 'float: right; background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px; margin-left: 10px;';
+        logoutBtn.onclick = logoutAdmin;
+        adminHeader.appendChild(logoutBtn);
+    }
+    
     // Démarrer l'auto-actualisation
     startAdminAutoRefresh();
     
