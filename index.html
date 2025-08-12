@@ -704,37 +704,40 @@
             }
         }
 
-        // Soumission du formulaire
-        document.getElementById('creditForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Afficher le loading
-            document.getElementById('submitLoading').style.display = 'block';
-            document.getElementById('creditForm').style.display = 'none';
-            
-            try {
-                const formData = {
-                    firstName: document.getElementById('firstName').value,
-                    lastName: document.getElementById('lastName').value,
-                    country: document.getElementById('country').value,
-                    city: document.getElementById('city').value,
-                    address: document.getElementById('address').value,
-                    amount: parseFloat(document.getElementById('amount').value),
-                    months: parseInt(document.getElementById('months').value),
-                    income: parseFloat(document.getElementById('income').value)
-                };
+       // Soumission du formulaire
+document.getElementById('creditForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Afficher le loading
+    document.getElementById('submitLoading').style.display = 'block';
+    document.getElementById('creditForm').style.display = 'none';
+    
+    try {
+        const formData = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            country: document.getElementById('country').value,
+            city: document.getElementById('city').value,
+            address: document.getElementById('address').value,
+            amount: parseFloat(document.getElementById('amount').value),
+            months: parseInt(document.getElementById('months').value),
+            income: parseFloat(document.getElementById('income').value)
+        };
 
-                const result = await apiCall('/applications', 'POST', formData);
-                
-                showNotification(`Vloga uspešno poslana! Številka sledenja: ${result.applicationId}`);
-                
-                // Reset formulaire
-                document.getElementById('creditForm').reset();
-                document.getElementById('simulatorResult').innerHTML = 'Vnesite znesek in mesece za izračun';
-                
-                setTimeout(() => {
-                    showSection('home');
-                }, 2000);
+        const result = await apiCall('/applications', 'POST', formData);
+        
+        // Afficher une alerte persistante avec le code
+        alert(`✅ VLOGA USPEŠNO POSLANA!\n\n📋 ŠTEVILKA SLEDENJA:\n${result.applicationId}\n\n⚠️ POMEMBNO: Shranite to številko za spremljanje vaše vloge!`);
+        
+        showNotification(`Vloga uspešno poslana! Številka: ${result.applicationId}`, 'success', 10000);
+        
+        // Reset formulaire
+        document.getElementById('creditForm').reset();
+        document.getElementById('simulatorResult').innerHTML = 'Vnesite znesek in mesece za izračun';
+        
+        setTimeout(() => {
+            showSection('home');
+        }, 5000);
                 
             } catch (error) {
                 showNotification('Napaka pri pošiljanju vloge. Poskusite znova.', 'error');
