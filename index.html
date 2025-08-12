@@ -869,20 +869,40 @@ document.getElementById('creditForm').addEventListener('submit', async function(
 
         // Messages
         async function sendAdminMessage(applicationId) {
-            const messageText = document.getElementById(`adminMessage-${applicationId}`).value;
-            if (messageText.trim()) {
-                try {
-                    await apiCall(`/admin/applications/${applicationId}/messages`, 'POST', {
-                        message: messageText,
-                        from: 'admin'
-                    });
-                    document.getElementById(`adminMessage-${applicationId}`).value = '';
-                    showNotification('Sporočilo poslano!');
-                } catch (error) {
-                    showNotification('Napaka pri pošiljanju sporočila', 'error');
-                }
-            }
-        }
+    const messageText = document.getElementById(`adminMessage-${applicationId}`).value;
+    const sendButton = event.target;
+    
+    if (!messageText.trim()) {
+        showNotification('Vnesite sporočilo', 'error');
+        return;
+    }
+    
+    // Désactiver le bouton
+    sendButton.disabled = true;
+    sendButton.textContent = 'Pošiljam...';
+    sendButton.style.opacity = '0.6';
+    
+    try {
+        await apiCall(`/admin/applications/${applicationId}/messages`, 'POST', {
+            message: messageText,
+            from: 'admin'
+        });
+        
+        // Vider le champ
+        document.getElementById(`adminMessage-${applicationId}`).value = '';
+        
+        // Notification de succès
+        showNotification('✅ Sporočilo uspešno poslano!', 'success', 4000);
+        
+    } catch (error) {
+        showNotification('❌ Napaka pri pošiljanju sporočila', 'error', 5000);
+    } finally {
+        // Réactiver le bouton
+        sendButton.disabled = false;
+        sendButton.textContent = 'Pošlji sporočilo';
+        sendButton.style.opacity = '1';
+    }
+}
 
         async function sendUserMessage() {
     const messageText = document.getElementById('userMessageText').value;
