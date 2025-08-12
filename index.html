@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Srce Socialnih Financ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .water-drop {
+            width: 40px;
+            height: 50px;
+            background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+        }
+
+        .water-drop::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 12px;
+            height: 15px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+        }
+
+        .app-title {
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .main-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-card {
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            width: 100%;
+        }
+
+        .option-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .option-1 {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        }
+
+        .option-2 {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+        }
+
+        .option-3 {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .back-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .simulator {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .simulator-result {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1d4ed8;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .tracking-section {
+            display: none;
+        }
+
+        .tracking-section.active {
+            display: block;
+        }
+
+        .dashboard {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-approved {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .message-box {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .testimonial-date {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .testimonial-text {
+            color: #4b5563;
+            line-height: 1.5;
+        }
+
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border: 2px solid #e5e7eb;
+        }
+
+        .admin-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .approve-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .reject-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .file-input {
+            border: 2px dashed #d1d5db;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .file-input:hover {
+            border-color: #3b82f6;
+        }
+
+        .file-input.dragover {
+            border-color: #3b82f6;
+            background-color: #f0f9ff;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+            }
+
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-section">
+                <div class="water-drop"></div>
+                <div class="app-title">Srce Socialnih Financ</div>
+            </div>
+        </div>
+
+        <!-- Page d'accueil -->
+        <div id="home" class="content">
+            <div class="main-options">
+                <button class="option-card option-1" onclick="showSection('credit-form')">
+                    I - Zahteva za kredit
+                    <div style="font-size: 12px; margin-top: 5px;">Vložite vašo kreditno vlogo</div>
+                </button>
+                <button class="option-card option-2" onclick="showSection('tracking')">
+                    II - Spremljanje vloge
+                    <div style="font-size: 12px; margin-top: 5px;">Preverite status vaše vloge</div>
+                </button>
+                <button class="option-card option-3" onclick="showSection('testimonials')">
+                    III - Pričevanja
+                    <div style="font-size: 12px; margin-top: 5px;">Izkušnje naših strank</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulaire de crédit -->
+        <div id="credit-form" class="form-section content">
+            <button class="back-btn" onclick="showSection('home')">← Nazaj</button>
+            <h2 style="margin-bottom: 20px; color: #1f2937;">Zahteva za kredit</h2>
+            
+            <form id="creditForm">
+                <div class="form-group">
+                    <label>Ime *</label>
+                    <input type="text" id="firstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Priimek *</label>
+                    <input type="text" id="lastName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Država *</label>
+                    <select id="country" required>
+                        <option value="">Izberite državo</option>
+                        <option value="Slovenia">Slovenija</option>
+                        <option value="Croatia">Hrvaška</option>
+                        <option value="Austria">Avstrija</option>
+                        <option value="Italy">Italija</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Mesto *</label>
+                    <input type="text" id="city" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Polni naslov *</label>
+                    <textarea id="address" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Znesek kredita (€) *</label>
+                    <input type="number" id="amount" min="500" max="50000" required oninput="calculateLoan()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Meseci vračanja (1-120) *</label>
+                    <input type="number" id="months" min="1" max="120" required oninput="calculateLoan()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Mesečni dohodek (€) *</label>
+                    <input type="number" id="income" required>
+                </div>
+
+                <div class="simulator">
+                    <h4 style="margin-bottom: 10px;">Simulator kredita (3% obrestna mera)</h4>
+                    <div id="simulatorResult" class="simulator-result">
+                        Vnesite znesek in mesece za izračun
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Osebni dokument</label>
+                    <div class="file-input" onclick="document.getElementById('idDocument').click()">
+                        <input type="file" id="idDocument" style="display: none;" accept="image/*,.pdf">
+                        <div>📄 Kliknite za izbiro datoteke</div>
+                        <div style="font-size: 12px; margin-top: 5px;">PDF ali slika</div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">Pošljite vlogo</button>
+            </form>
+
+            <div id="submitLoading" class="loading">
+                <div class="spinner"></div>
+                <div>Pošiljanje vloge...</div>
+            </div>
+        </div>
+
+        <!-- Suivi de dossier -->
+        <div id="tracking" class="tracking-section content">
+            <button class="back-btn" onclick="showSection('home')">← Nazaj</button>
+            <h2 style="margin-bottom: 20px; color: #1f2937;">Spremljanje vloge</h2>
+            
+            <div class="form-group">
+                <label>Vnesite številko sledenja ali admin kodo</label>
+                <input type="text" id="trackingNumber" placeholder="npr. KR-2025-001 ali ADMINX2025">
+            </div>
+            <button onclick="checkTracking()" class="submit-btn">Preveri status</button>
+
+            <div id="trackingLoading" class="loading">
+                <div class="spinner"></div>
+                <div>Preverjanje statusa...</div>
+            </div>
+
+            <div id="userDashboard" class="dashboard hidden">
+                <h3>Status vaše vloge</h3>
+                <div id="applicationStatus"></div>
+                <div class="message-box">
+                    <h4>Sporočila</h4>
+                    <div id="userMessages"></div>
+                    <textarea id="userMessageText" placeholder="Napišite sporočilo..." rows="3" style="width: 100%; margin: 10px 0;"></textarea>
+                    <button onclick="sendUserMessage()" class="submit-btn" style="padding: 8px;">Pošlji sporočilo</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel administrateur -->
+        <div id="admin-panel" class="admin-panel content">
+            <button class="back-btn" onclick="showSection('home')">← Nazaj</button>
+            <h2 style="margin-bottom: 20px; color: #1f2937;">Administratorski panel</h2>
+            
+            <div id="adminLoading" class="loading">
+                <div class="spinner"></div>
+                <div>Nalaganje vlog...</div>
+            </div>
+            
+            <div id="adminApplications"></div>
+        </div>
+
+        <!-- Témoignages -->
+        <div id="testimonials" class="form-section content">
+            <button class="back-btn" onclick="showSection('home')">← Nazaj</button>
+            <h2 style="margin-bottom: 20px; color: #1f2937;">Pričevanja strank</h2>
+            
+            <div id="testimonialsContainer"></div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Configuration de l'API
+        const API_BASE_URL = window.location.hostname === 'localhost' ? 
+            'http://localhost:3000/api' : 
+            'https://srce-socialnih-financ.onrender.com/api';
+
+        // Variables globales
+        let currentUser = null;
+
+        // Témoignages
+        const testimonials = [
+            {
+                name: "Marija Novak",
+                date: "Januar 2025",
+                text: "Odličen servis! Kredit sem dobila v samo 3 dneh. Postopek je bil preprost in transparenten."
+            },
+            {
+                name: "Janez Horvat",
+                date: "December 2024",
+                text: "Zelo zadovoljen s hitrostjo odobravanja. Potreboval sem kredit za dom in ga dobil brez zapletov."
+            },
+            {
+                name: "Ana Kranjc",
+                date: "November 2024",
+                text: "Prijazno osebje in konkurenčne obrestne mere. Priporočam vsem!"
+            },
+            {
+                name: "Matej Žagar",
+                date: "Oktober 2024",
+                text: "Transparentni pogoji in hitra obravnava. Kredit sem uporabil za renovacijo stanovanja."
+            },
+            {
+                name: "Petra Kos",
+                date: "September 2024",
+                text: "Izvrstna izkušnja! Online postopek je zelo uporaben in enostaven."
+            },
+            {
+                name: "Luka Mlakar",
+                date: "Avgust 2024",
+                text: "Potreboval sem kredit za avto. Proces je bil hiter in brez skritih stroškov."
+            },
+            {
+                name: "Eva Rebec",
+                date: "Julij 2024",
+                text: "Odlična komunikacija in podpora. Vse je bilo jasno razloženo."
+            },
+            {
+                name: "Tomaž Vidmar",
+                date: "Junij 2024",
+                text: "Kredit sem dobil za študij. Ugodne obrestne mere in fleksibilni pogoji."
+            },
+            {
+                name: "Maja Bizjak",
+                date: "Maj 2024",
+                text: "Zelo zadovoljna s storitvijo. Hitro in zanesljivo."
+            },
+            {
+                name: "Rok Petek",
+                date: "April 2024",
+                text: "Profesionalen pristop in odličen servis. Priporočam!"
+            },
+            {
+                name: "Katja Zupan",
+                date: "Marec 2023",
+                text: "Kredit za podjetje sem dobila brez težav. Odličen partner za financiranje."
+            },
+            {
+                name: "Miha Kastelic",
+                date: "Februar 2023",
+                text: "Potreboval sem kredit za zdravljenje. Dobil sem ga hitro in po ugodni ceni."
+            },
+            {
+                name: "Tanja Golob",
+                date: "Januar 2023",
+                text: "Izvrstna izkušnja! Kredit sem dobila v rekordnem času."
+            },
+            {
+                name: "David Lakner",
+                date: "December 2022",
+                text: "Ugodne obrestne mere in hiter postopek. Zelo priporočam!"
+            },
+            {
+                name: "Nina Cerar",
+                date: "November 2022",
+                text: "Prijazno osebje in transparentni pogoji. Popolnoma zadovoljna!"
+            }
+        ];
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTestimonials();
+            
+            // Drag and drop pour les fichiers
+            const fileInput = document.querySelector('.file-input');
+            
+            fileInput.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                fileInput.classList.add('dragover');
+            });
+            
+            fileInput.addEventListener('dragleave', function() {
+                fileInput.classList.remove('dragover');
+            });
+            
+            fileInput.addEventListener('drop', function(e) {
+                e.preventDefault();
+                fileInput.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    document.getElementById('idDocument').files = files;
+                    showNotification('Datoteka naložena: ' + files[0].name);
+                }
+            });
+
+            // Gestion du changement de fichier
+            document.getElementById('idDocument').addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    showNotification('Datoteka naložena: ' + this.files[0].name);
+                }
+            });
+        });
+
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.content, .form-section, .tracking-section, .admin-panel').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none';
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Calculateur de crédit
+        function calculateLoan() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const months = parseInt(document.getElementById('months').value);
+            
+            if (amount && months) {
+                const rate = 0.03; // 3% annuel
+                const monthlyRate = rate / 12;
+                const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+                const total = monthlyPayment * months;
+                const interest = total - amount;
+                
+                document.getElementById('simulatorResult').innerHTML = `
+                    <div>Mesečna rata: <strong>${monthlyPayment.toFixed(2)}€</strong></div>
+                    <div>Skupaj vrnete: <strong>${total.toFixed(2)}€</strong></div>
+                    <div>Skupne obresti: <strong>${interest.toFixed(2)}€</strong></div>
+                `;
+            }
+        }
+
+        // Fonctions API
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            try {
+                const options = {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                showNotification('Napaka pri povezavi s strežnikom', 'error');
+                throw error;
+            }
+        }
+
+        // Soumission du formulaire
+        document.getElementById('creditForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Afficher le loading
+            document.getElementById('submitLoading').style.display = 'block';
+            document.getElementById('creditForm').style.display = 'none';
+            
+            try {
+                const formData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    country: document.getElementById('country').value,
+                    city: document.getElementById('city').value,
+                    address: document.getElementById('address').value,
+                    amount: parseFloat(document.getElementById('amount').value),
+                    months: parseInt(document.getElementById('months').value),
+                    income: parseFloat(document.getElementById('income').value)
+                };
+
+                const result = await apiCall('/applications', 'POST', formData);
+                
+                showNotification(`Vloga uspešno poslana! Številka sledenja: ${result.applicationId}`);
+                
+                // Reset formulaire
+                document.getElementById('creditForm').reset();
+                document.getElementById('simulatorResult').innerHTML = 'Vnesite znesek in mesece za izračun';
+                
+                setTimeout(() => {
+                    showSection('home');
+                }, 2000);
+                
+            } catch (error) {
+                showNotification('Napaka pri pošiljanju vloge. Poskusite znova.', 'error');
+            } finally {
+                document.getElementById('submitLoading').style.display = 'none';
+                document.getElementById('creditForm').style.display = 'block';
+            }
+        });
+
+        // Suivi des demandes
+        async function checkTracking() {
+            const trackingNumber = document.getElementById('trackingNumber').value.trim();
+            
+            if (!trackingNumber) {
+                showNotification('Vnesite številko sledenja', 'error');
+                return;
+            }
+
+            document.getElementById('trackingLoading').style.display = 'block';
+            
+            try {
+                if (trackingNumber === 'ADMINX2025') {
+                    await showAdminPanel();
+                } else {
+                    const application = await apiCall(`/applications/${trackingNumber}`);
+                    currentUser = trackingNumber;
+                    showUserDashboard(application);
+                }
+            } catch (error) {
+                showNotification('Številka sledenja ni najdena!', 'error');
+            } finally {
+                document.getElementById('trackingLoading').style.display = 'none';
+            }
+        }
+
+        // Tableau de bord utilisateur
+        function showUserDashboard(application) {
+            const dashboard = document.getElementById('userDashboard');
+            dashboard.classList.remove('hidden');
+            
+            const statusColors = {
+                pending: 'status-pending',
+                approved: 'status-approved',
+                rejected: 'status-rejected'
+            };
+            
+            const statusTexts = {
+                pending: 'V obravnavi',
+                approved: 'Odobreno',
+                rejected: 'Zavrnjeno'
+            };
+            
+            document.getElementById('applicationStatus').innerHTML = `
+                <div class="status-badge ${statusColors[application.status]}">
+                    ${statusTexts[application.status]}
+                </div>
+                <div>Vloga: ${application.applicationId}</div>
+                <div>Znesek: ${application.amount}€</div>
+                <div>Datum: ${new Date(application.createdAt).toLocaleDateString('sl-SI')}</div>
+            `;
+            
+            loadUserMessages();
+        }
+
+        // Panel administrateur
+        async function showAdminPanel() {
+            showSection('admin-panel');
+            document.getElementById('adminLoading').style.display = 'block';
+            
+            try {
+                const applications = await apiCall('/admin/applications');
+                loadAdminApplications(applications);
+            } catch (error) {
+                showNotification('Napaka pri nalaganju vlog', 'error');
+            } finally {
+                document.getElementById('adminLoading').style.display = 'none';
+            }
+        }
+
+        function loadAdminApplications(applications) {
+            const container = document.getElementById('adminApplications');
+            container.innerHTML = '';
+            
+            if (applications.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #6b7280;">Ni vlog</div>';
+                return;
+            }
+            
+            applications.forEach(app => {
+                const statusTexts = {
+                    pending: 'V obravnavi',
+                    approved: 'Odobreno',
+                    rejected: 'Zavrnjeno'
+                };
+                
+                const card = document.createElement('div');
+                card.className = 'admin-card';
+                card.innerHTML = `
+                    <div><strong>${app.firstName} ${app.lastName}</strong></div>
+                    <div>Vloga: ${app.applicationId}</div>
+                    <div>Znesek: ${app.amount}€ / ${app.months} mesecev</div>
+                    <div>Dohodek: ${app.income}€/mesec</div>
+                    <div>Status: <span class="status-badge status-${app.status}">${statusTexts[app.status]}</span></div>
+                    <div>Datum: ${new Date(app.createdAt).toLocaleDateString('sl-SI')}</div>
+                    <div class="admin-buttons">
+                        <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
+                        <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <textarea placeholder="Sporočilo stranki..." id="adminMessage-${app.applicationId}" rows="2" style="width: 100%; margin-bottom: 5px;"></textarea>
+                        <button onclick="sendAdminMessage('${app.applicationId}')" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Pošlji sporočilo</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Mise à jour du statut
+        async function updateApplicationStatus(applicationId, status) {
+            try {
+                await apiCall(`/admin/applications/${applicationId}/status`, 'PUT', { status });
+                const statusText = status === 'approved' ? 'odobrena' : 'zavrnjena';
+                showNotification(`Vloga ${applicationId} ${statusText}!`);
+                showAdminPanel(); // Refresh the list
+            } catch (error) {
+                showNotification('Napaka pri posodabljanju statusa', 'error');
+            }
+        }
+
+        // Messages
+        async function sendAdminMessage(applicationId) {
+            const messageText = document.getElementById(`adminMessage-${applicationId}`).value;
+            if (messageText.trim()) {
+                try {
+                    await apiCall(`/admin/applications/${applicationId}/messages`, 'POST', {
+                        message: messageText,
+                        from: 'admin'
+                    });
+                    document.getElementById(`adminMessage-${applicationId}`).value = '';
+                    showNotification('Sporočilo poslano!');
+                } catch (error) {
+                    showNotification('Napaka pri pošiljanju sporočila', 'error');
+                }
+            }
+        }
+
+        async function sendUserMessage() {
+            const messageText = document.getElementById('userMessageText').value;
+            if (messageText.trim() && currentUser) {
+                try {
+                    await apiCall(`/applications/${currentUser}/messages`, 'POST', {
+                        message: messageText,
+                        from: 'user'
+                    });
+                    document.getElementById('userMessageText').value = '';
+                    loadUserMessages();
+                    showNotification('Sporočilo poslano!');
+                } catch (error) {
+                    showNotification('Napaka pri pošiljanju sporočila', 'error');
+                }
+            }
+        }
+
+        async function loadUserMessages() {
+            if (!currentUser) return;
+            
+            try {
+                const messages = await apiCall(`/applications/${currentUser}/messages`);
+                const container = document.getElementById('userMessages');
+                
+                if (messages.length === 0) {
+                    container.innerHTML = '<div style="color: #6b7280;">Ni sporočil</div>';
+                    return;
+                }
+                
+                container.innerHTML = messages.map(msg => `
+                    <div style="margin: 10px 0; padding: 10px; background: ${msg.from === 'admin' ? '#e0f2fe' : '#f3f4f6'}; border-radius: 8px;">
+                        <div style="font-size: 12px; color: #6b7280; margin-bottom: 5px;">
+                            ${msg.from === 'admin' ? 'Administrator' : 'Vi'} - ${new Date(msg.createdAt).toLocaleString('sl-SI')}
+                        </div>
+                        <div>${msg.message}</div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading messages:', error);
+            }
+        }
+
+        // Témoignages
+        function loadTestimonials() {
+            const container = document.getElementById('testimonialsContainer');
+            container.innerHTML = testimonials.map(testimonial => `
+                <div class="testimonial">
+                    <div class="testimonial-author">${testimonial.name}</div>
+                    <div class="testimonial-date">${testimonial.date}</div>
+                    <div class="testimonial-text">${testimonial.text}</div>
+                </div>
+            `).join('');
+        }
+
+        // Notifications
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.backgroundColor = type === 'error' ? '#ef4444' : '#10b981';
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initialisation par défaut
+        showSection('home');
+    </script>
+</body>
+</html>
