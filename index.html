@@ -933,8 +933,6 @@ async function showAdminPanel() {
         card.className = 'admin-card';
         card.innerHTML = `
     <div><strong>${app.firstName} ${app.lastName}</strong></div>
-    <div>📧 Email: ${app.email || 'Ni podano'}</div>
-    <div>📍 ${app.city}, ${app.country}</div>
     <div>Vloga: ${app.applicationId}</div>
     <div>Znesek: ${app.amount}€ / ${app.months} mesecev</div>
     <div>Dohodek: ${app.income}€/mesec</div>
@@ -947,6 +945,15 @@ async function showAdminPanel() {
             Prikaži/Skrij sporočila
         </button>
     </div>
+    <div class="admin-buttons">
+        <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
+        <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
+    </div>
+    <div style="margin-top: 10px;">
+        <textarea placeholder="Sporočilo stranki..." id="adminMessage-${app.applicationId}" rows="2" style="width: 100%; margin-bottom: 5px;"></textarea>
+        <button onclick="sendAdminMessage('${app.applicationId}')" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Pošlji sporočilo</button>
+    </div>
+`;
     <div class="admin-buttons">
         <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
         <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
