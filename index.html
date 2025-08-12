@@ -353,6 +353,25 @@
             100% { transform: rotate(360deg); }
         }
 
+        .logout-btn:hover {
+            background: #dc2626 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .admin-logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
         @media (max-width: 480px) {
             .container {
                 margin: 0;
@@ -364,24 +383,6 @@
                 padding: 0;
             }
         }
-        .logout-btn:hover {
-    background: #dc2626 !important;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
-}
-
-.user-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.admin-logout {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
     </style>
 </head>
 <body>
@@ -426,20 +427,16 @@
                     <label>Priimek *</label>
                     <input type="text" id="lastName" required>
                 </div>
-               
-<div class="form-group">
-    <label>Država *</label>
-    <select id="country" required>
-              <div class="form-group">
-    <label>Država *</label>
-    <select id="country" required>
-        <option value="">Izberite državo</option>
-        <option value="Slovenia">Slovenija</option>
-        <option value="Croatia">Hrvaška</option>
-        <option value="Austria">Avstrija</option>
-        <option value="Italy">Italija</option>
-    </select>
-</div>
+                
+                <div class="form-group">
+                    <label>Država *</label>
+                    <select id="country" required>
+                        <option value="">Izberite državo</option>
+                        <option value="Slovenia">Slovenija</option>
+                        <option value="Croatia">Hrvaška</option>
+                        <option value="Austria">Avstrija</option>
+                        <option value="Italy">Italija</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">
@@ -493,15 +490,15 @@
         </div>
 
         <!-- Suivi de dossier -->
-<div id="tracking" class="tracking-section content">
-    <button class="back-btn" onclick="showSection('home')">← Nazaj</button>
-    <h2 style="margin-bottom: 20px; color: #1f2937;">Spremljanje vloge</h2>
-    
-    <div class="form-group">
-        <label>Vnesite številko sledenja</label>
-        <input type="text" id="trackingNumber" placeholder="KR-2025-001">
-    </div>
-    <button onclick="checkTracking()" class="submit-btn">Preveri status</button>
+        <div id="tracking" class="tracking-section content">
+            <button class="back-btn" onclick="showSection('home')">← Nazaj</button>
+            <h2 style="margin-bottom: 20px; color: #1f2937;">Spremljanje vloge</h2>
+            
+            <div class="form-group">
+                <label>Vnesite številko sledenja</label>
+                <input type="text" id="trackingNumber" placeholder="KR-2025-001">
+            </div>
+            <button onclick="checkTracking()" class="submit-btn">Preveri status</button>
 
             <div id="trackingLoading" class="loading">
                 <div class="spinner"></div>
@@ -509,7 +506,6 @@
             </div>
 
             <div id="userDashboard" class="dashboard hidden">
-                <h3>Status vaše vloge</h3>
                 <div id="applicationStatus"></div>
                 <div class="message-box">
                     <h4>Sporočila</h4>
@@ -632,122 +628,6 @@
                 text: "Prijazno osebje in transparentni pogoji. Popolnoma zadovoljna!"
             }
         ];
-// Fonction de déconnexion administrateur
-function logoutAdmin() {
-    // Arrêter l'auto-refresh
-    stopAdminAutoRefresh();
-    
-    // Nettoyer les données
-    currentUser = null;
-    
-    // Vider le champ de recherche
-    document.getElementById('trackingNumber').value = '';
-    
-    // Retourner à l'accueil
-    showSection('home');
-    
-    // Notification
-    showNotification('👨‍💼 Uspešna odjava administratorja', 'success', 3000);
-}
-
-// Fonction de déconnexion utilisateur
-function logoutUser() {
-    // Nettoyer les données utilisateur
-    currentUser = null;
-    
-    // Masquer le dashboard
-    document.getElementById('userDashboard').classList.add('hidden');
-    
-    // Vider le champ de recherche
-    document.getElementById('trackingNumber').value = '';
-    
-    // Retourner à l'accueil
-    showSection('home');
-    
-    // Notification
-    showNotification('👤 Uspešna odjava uporabnika', 'success', 3000);
-}
-
-// Fonction pour nettoyer lors du changement de section
-function clearUserSession() {
-    currentUser = null;
-    document.getElementById('userDashboard').classList.add('hidden');
-    document.getElementById('trackingNumber').value = '';
-}
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            loadTestimonials();
-            
-            // Drag and drop pour les fichiers
-            const fileInput = document.querySelector('.file-input');
-            
-            fileInput.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                fileInput.classList.add('dragover');
-            });
-            
-            fileInput.addEventListener('dragleave', function() {
-                fileInput.classList.remove('dragover');
-            });
-            
-            fileInput.addEventListener('drop', function(e) {
-                e.preventDefault();
-                fileInput.classList.remove('dragover');
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    document.getElementById('idDocument').files = files;
-                    showNotification('Datoteka naložena: ' + files[0].name);
-                }
-            });
-
-            // Gestion du changement de fichier
-            document.getElementById('idDocument').addEventListener('change', function() {
-                if (this.files.length > 0) {
-                    showNotification('Datoteka naložena: ' + this.files[0].name);
-                }
-            });
-        });
-
-      // Navigation
-function showSection(sectionId) {
-    // Arrêter l'auto-refresh quand on quitte l'admin
-    if (sectionId !== 'admin-panel') {
-        stopAdminAutoRefresh();
-    }
-    
-    // Nettoyer la session utilisateur quand on change de section
-    if (sectionId === 'home') {
-        clearUserSession();
-    }
-    
-    document.querySelectorAll('.content, .form-section, .tracking-section, .admin-panel').forEach(el => {
-        el.classList.remove('active');
-        el.style.display = 'none';
-    });
-    
-    document.getElementById(sectionId).classList.add('active');
-    document.getElementById(sectionId).style.display = 'block';
-}
-
-        // Calculateur de crédit
-        function calculateLoan() {
-            const amount = parseFloat(document.getElementById('amount').value);
-            const months = parseInt(document.getElementById('months').value);
-            
-            if (amount && months) {
-                const rate = 0.03; // 3% annuel
-                const monthlyRate = rate / 12;
-                const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
-                const total = monthlyPayment * months;
-                const interest = total - amount;
-                
-                document.getElementById('simulatorResult').innerHTML = `
-                    <div>Mesečna rata: <strong>${monthlyPayment.toFixed(2)}€</strong></div>
-                    <div>Skupaj vrnete: <strong>${total.toFixed(2)}€</strong></div>
-                    <div>Skupne obresti: <strong>${interest.toFixed(2)}€</strong></div>
-                `;
-            }
-        }
 
         // Fonctions API
         async function apiCall(endpoint, method = 'GET', data = null) {
@@ -777,40 +657,40 @@ function showSection(sectionId) {
             }
         }
 
-       // Soumission du formulaire
-document.getElementById('creditForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    // Afficher le loading
-    document.getElementById('submitLoading').style.display = 'block';
-    document.getElementById('creditForm').style.display = 'none';
-    
-    try {
-        const formData = {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            country: document.getElementById('country').value,
-            city: document.getElementById('city').value,
-            address: document.getElementById('address').value,
-            amount: parseFloat(document.getElementById('amount').value),
-            months: parseInt(document.getElementById('months').value),
-            income: parseFloat(document.getElementById('income').value)
-        };
+        // Soumission du formulaire
+        document.getElementById('creditForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Afficher le loading
+            document.getElementById('submitLoading').style.display = 'block';
+            document.getElementById('creditForm').style.display = 'none';
+            
+            try {
+                const formData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    country: document.getElementById('country').value,
+                    city: document.getElementById('city').value,
+                    address: document.getElementById('address').value,
+                    amount: parseFloat(document.getElementById('amount').value),
+                    months: parseInt(document.getElementById('months').value),
+                    income: parseFloat(document.getElementById('income').value)
+                };
 
-        const result = await apiCall('/applications', 'POST', formData);
-        
-        // Afficher une alerte persistante avec le code
-        alert(`✅ VLOGA USPEŠNO POSLANA!\n\n📋 ŠTEVILKA SLEDENJA:\n${result.applicationId}\n\n⚠️ POMEMBNO: Shranite to številko za spremljanje vaše vloge!`);
-        
-        showNotification(`Vloga uspešno poslana! Številka: ${result.applicationId}`, 'success', 10000);
-        
-        // Reset formulaire
-        document.getElementById('creditForm').reset();
-        document.getElementById('simulatorResult').innerHTML = 'Vnesite znesek in mesece za izračun';
-        
-        setTimeout(() => {
-            showSection('home');
-        }, 5000);
+                const result = await apiCall('/applications', 'POST', formData);
+                
+                // Afficher une alerte persistante avec le code
+                alert(`✅ VLOGA USPEŠNO POSLANA!\n\n📋 ŠTEVILKA SLEDENJA:\n${result.applicationId}\n\n⚠️ POMEMBNO: Shranite to številko za spremljanje vaše vloge!`);
+                
+                showNotification(`Vloga uspešno poslana! Številka: ${result.applicationId}`, 'success', 10000);
+                
+                // Reset formulaire
+                document.getElementById('creditForm').reset();
+                document.getElementById('simulatorResult').innerHTML = 'Vnesite znesek in mesece za izračun';
+                
+                setTimeout(() => {
+                    showSection('home');
+                }, 5000);
                 
             } catch (error) {
                 showNotification('Napaka pri pošiljanju vloge. Poskusite znova.', 'error');
@@ -846,135 +726,127 @@ document.getElementById('creditForm').addEventListener('submit', async function(
             }
         }
 
-       // Tableau de bord utilisateur
-function showUserDashboard(application) {
-    const dashboard = document.getElementById('userDashboard');
-    dashboard.classList.remove('hidden');
-    
-    const statusColors = {
-        pending: 'status-pending',
-        approved: 'status-approved',
-        rejected: 'status-rejected'
-    };
-    
-    const statusTexts = {
-        pending: 'V obravnavi',
-        approved: 'Odobreno',
-        rejected: 'Zavrnjeno'
-    };
-    
-    document.getElementById('applicationStatus').innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h3 style="margin: 0;">Status vaše vloge</h3>
-            <button onclick="logoutUser()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">
-                🚪 Odjava
-            </button>
-        </div>
-        <div class="status-badge ${statusColors[application.status]}">
-            ${statusTexts[application.status]}
-        </div>
-        <div>Vloga: ${application.applicationId}</div>
-        <div>Znesek: ${application.amount}€</div>
-        <div>Datum: ${new Date(application.createdAt).toLocaleDateString('sl-SI')}</div>
-    `;
-    
-    loadUserMessages();
-}
+        // Tableau de bord utilisateur
+        function showUserDashboard(application) {
+            const dashboard = document.getElementById('userDashboard');
+            dashboard.classList.remove('hidden');
+            
+            const statusColors = {
+                pending: 'status-pending',
+                approved: 'status-approved',
+                rejected: 'status-rejected'
+            };
+            
+            const statusTexts = {
+                pending: 'V obravnavi',
+                approved: 'Odobreno',
+                rejected: 'Zavrnjeno'
+            };
+            
+            document.getElementById('applicationStatus').innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 style="margin: 0;">Status vaše vloge</h3>
+                    <button onclick="logoutUser()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">
+                        🚪 Odjava
+                    </button>
+                </div>
+                <div class="status-badge ${statusColors[application.status]}">
+                    ${statusTexts[application.status]}
+                </div>
+                <div>Vloga: ${application.applicationId}</div>
+                <div>Znesek: ${application.amount}€</div>
+                <div>Datum: ${new Date(application.createdAt).toLocaleDateString('sl-SI')}</div>
+            `;
+            
+            loadUserMessages();
+        }
 
-       // Panel administrateur
-async function showAdminPanel() {
-    showSection('admin-panel');
-    document.getElementById('adminLoading').style.display = 'block';
-    
-    // Ajouter le bouton de déconnexion dans le header du panel admin
-    const adminHeader = document.querySelector('#admin-panel h2');
-    if (adminHeader && !adminHeader.querySelector('.logout-btn')) {
-        const logoutBtn = document.createElement('button');
-        logoutBtn.className = 'logout-btn';
-        logoutBtn.innerHTML = '🚪 Odjava';
-        logoutBtn.style.cssText = 'float: right; background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px; margin-left: 10px;';
-        logoutBtn.onclick = logoutAdmin;
-        adminHeader.appendChild(logoutBtn);
-    }
-    
-    // Démarrer l'auto-actualisation
-    startAdminAutoRefresh();
-    
-    try {
-        const applications = await apiCall('/admin/applications');
-        loadAdminApplications(applications);
-    } catch (error) {
-        showNotification('Napaka pri nalaganju vlog', 'error');
-    } finally {
-        document.getElementById('adminLoading').style.display = 'none';
-    }
-}
+        // Panel administrateur
+        async function showAdminPanel() {
+            showSection('admin-panel');
+            document.getElementById('adminLoading').style.display = 'block';
+            
+            // Ajouter le bouton de déconnexion dans le header du panel admin
+            const adminHeader = document.querySelector('#admin-panel h2');
+            if (adminHeader && !adminHeader.querySelector('.logout-btn')) {
+                const logoutBtn = document.createElement('button');
+                logoutBtn.className = 'logout-btn';
+                logoutBtn.innerHTML = '🚪 Odjava';
+                logoutBtn.style.cssText = 'float: right; background: #ef4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 14px; margin-left: 10px;';
+                logoutBtn.onclick = logoutAdmin;
+                adminHeader.appendChild(logoutBtn);
+            }
+            
+            // Démarrer l'auto-actualisation
+            startAdminAutoRefresh();
+            
+            try {
+                const applications = await apiCall('/admin/applications');
+                loadAdminApplications(applications);
+            } catch (error) {
+                showNotification('Napaka pri nalaganju vlog', 'error');
+            } finally {
+                document.getElementById('adminLoading').style.display = 'none';
+            }
+        }
 
         function loadAdminApplications(applications) {
-    const container = document.getElementById('adminApplications');
-    container.innerHTML = '';
-    
-    if (applications.length === 0) {
-        container.innerHTML = '<div style="text-align: center; color: #6b7280;">Ni vlog</div>';
-        return;
-    }
-    
-    applications.forEach(async (app) => {
-        const statusTexts = {
-            pending: 'V obravnavi',
-            approved: 'Odobreno',
-            rejected: 'Zavrnjeno'
-        };
-        
-        // Récupérer le nombre de messages pour cette application
-        let messageCount = 0;
-        try {
-            const messages = await apiCall(`/applications/${app.applicationId}/messages`);
-            messageCount = messages.length;
-        } catch (error) {
-            console.error('Erreur récupération messages:', error);
+            const container = document.getElementById('adminApplications');
+            container.innerHTML = '';
+            
+            if (applications.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #6b7280;">Ni vlog</div>';
+                return;
+            }
+            
+            applications.forEach(async (app) => {
+                const statusTexts = {
+                    pending: 'V obravnavi',
+                    approved: 'Odobreno',
+                    rejected: 'Zavrnjeno'
+                };
+                
+                // Récupérer le nombre de messages pour cette application
+                let messageCount = 0;
+                try {
+                    const messages = await apiCall(`/applications/${app.applicationId}/messages`);
+                    messageCount = messages.length;
+                } catch (error) {
+                    console.error('Erreur récupération messages:', error);
+                }
+                
+                const card = document.createElement('div');
+                card.className = 'admin-card';
+                card.innerHTML = `
+                    <div><strong>${app.firstName} ${app.lastName}</strong></div>
+                    <div>Vloga: ${app.applicationId}</div>
+                    <div>Znesek: ${app.amount}€ / ${app.months} mesecev</div>
+                    <div>Dohodek: ${app.income}€/mesec</div>
+                    <div>Status: <span class="status-badge status-${app.status}">${statusTexts[app.status]}</span></div>
+                    <div>Datum: ${new Date(app.createdAt).toLocaleDateString('sl-SI')}</div>
+                    <div style="margin: 10px 0;">
+                        <strong>💬 Sporočila (${messageCount})</strong>
+                        <div id="adminMessages-${app.applicationId}" style="max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 5px 0;"></div>
+                        <button onclick="toggleMessages('${app.applicationId}')" style="background: #6b7280; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-bottom: 10px;">
+                            Prikaži/Skrij sporočila
+                        </button>
+                    </div>
+                    <div class="admin-buttons">
+                        <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
+                        <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <textarea placeholder="Sporočilo stranki..." id="adminMessage-${app.applicationId}" rows="2" style="width: 100%; margin-bottom: 5px;"></textarea>
+                        <button onclick="sendAdminMessage('${app.applicationId}')" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Pošlji sporočilo</button>
+                    </div>
+                `;
+                container.appendChild(card);
+                
+                // Charger les messages pour cette application
+                loadAdminMessages(app.applicationId);
+            });
         }
-        
-        const card = document.createElement('div');
-        card.className = 'admin-card';
-        card.innerHTML = `
-    <div><strong>${app.firstName} ${app.lastName}</strong></div>
-    <div>Vloga: ${app.applicationId}</div>
-    <div>Znesek: ${app.amount}€ / ${app.months} mesecev</div>
-    <div>Dohodek: ${app.income}€/mesec</div>
-    <div>Status: <span class="status-badge status-${app.status}">${statusTexts[app.status]}</span></div>
-    <div>Datum: ${new Date(app.createdAt).toLocaleDateString('sl-SI')}</div>
-    <div style="margin: 10px 0;">
-        <strong>💬 Sporočila (${messageCount})</strong>
-        <div id="adminMessages-${app.applicationId}" style="max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 5px 0;"></div>
-        <button onclick="toggleMessages('${app.applicationId}')" style="background: #6b7280; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-bottom: 10px;">
-            Prikaži/Skrij sporočila
-        </button>
-    </div>
-    <div class="admin-buttons">
-        <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
-        <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
-    </div>
-    <div style="margin-top: 10px;">
-        <textarea placeholder="Sporočilo stranki..." id="adminMessage-${app.applicationId}" rows="2" style="width: 100%; margin-bottom: 5px;"></textarea>
-        <button onclick="sendAdminMessage('${app.applicationId}')" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Pošlji sporočilo</button>
-    </div>
-`;
-    <div class="admin-buttons">
-        <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
-        <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
-    </div>
-    <div style="margin-top: 10px;">
-        <textarea placeholder="Sporočilo stranki..." id="adminMessage-${app.applicationId}" rows="2" style="width: 100%; margin-bottom: 5px;"></textarea>
-        <button onclick="sendAdminMessage('${app.applicationId}')" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Pošlji sporočilo</button>
-    </div>
-`;
-        container.appendChild(card);
-        
-        // Charger les messages pour cette application
-        loadAdminMessages(app.applicationId);
-    });
-}
+
         // Mise à jour du statut
         async function updateApplicationStatus(applicationId, status) {
             try {
@@ -989,84 +861,84 @@ async function showAdminPanel() {
 
         // Messages
         async function sendAdminMessage(applicationId) {
-    const messageText = document.getElementById(`adminMessage-${applicationId}`).value;
-    const sendButton = event.target;
-    
-    if (!messageText.trim()) {
-        showNotification('Vnesite sporočilo', 'error');
-        return;
-    }
-    
-    // Désactiver le bouton
-    sendButton.disabled = true;
-    sendButton.textContent = 'Pošiljam...';
-    sendButton.style.opacity = '0.6';
-    
-    try {
-        await apiCall(`/admin/applications/${applicationId}/messages`, 'POST', {
-            message: messageText,
-            from: 'admin'
-        });
-        
-        // Vider le champ
-        document.getElementById(`adminMessage-${applicationId}`).value = '';
-        
-        // Notification de succès
-        showNotification('✅ Sporočilo uspešno poslano!', 'success', 4000);
-        
-    } catch (error) {
-        showNotification('❌ Napaka pri pošiljanju sporočila', 'error', 5000);
-    } finally {
-        // Réactiver le bouton
-        sendButton.disabled = false;
-        sendButton.textContent = 'Pošlji sporočilo';
-        sendButton.style.opacity = '1';
-    }
-}
+            const messageText = document.getElementById(`adminMessage-${applicationId}`).value;
+            const sendButton = event.target;
+            
+            if (!messageText.trim()) {
+                showNotification('Vnesite sporočilo', 'error');
+                return;
+            }
+            
+            // Désactiver le bouton
+            sendButton.disabled = true;
+            sendButton.textContent = 'Pošiljam...';
+            sendButton.style.opacity = '0.6';
+            
+            try {
+                await apiCall(`/admin/applications/${applicationId}/messages`, 'POST', {
+                    message: messageText,
+                    from: 'admin'
+                });
+                
+                // Vider le champ
+                document.getElementById(`adminMessage-${applicationId}`).value = '';
+                
+                // Notification de succès
+                showNotification('✅ Sporočilo uspešno poslano!', 'success', 4000);
+                
+            } catch (error) {
+                showNotification('❌ Napaka pri pošiljanju sporočila', 'error', 5000);
+            } finally {
+                // Réactiver le bouton
+                sendButton.disabled = false;
+                sendButton.textContent = 'Pošlji sporočilo';
+                sendButton.style.opacity = '1';
+            }
+        }
 
         async function sendUserMessage() {
-    const messageText = document.getElementById('userMessageText').value;
-    const sendButton = event.target;
-    
-    if (!messageText.trim()) {
-        showNotification('Vnesite sporočilo', 'error');
-        return;
-    }
-    
-    if (!currentUser) {
-        showNotification('Napaka: ni uporabnika', 'error');
-        return;
-    }
-    
-    // Désactiver le bouton et changer le texte
-    sendButton.disabled = true;
-    sendButton.textContent = 'Pošiljam...';
-    sendButton.style.opacity = '0.6';
-    
-    try {
-        await apiCall(`/applications/${currentUser}/messages`, 'POST', {
-            message: messageText,
-            from: 'user'
-        });
-        
-        // Vider le champ de texte
-        document.getElementById('userMessageText').value = '';
-        
-        // Recharger les messages
-        await loadUserMessages();
-        
-        // Notification de succès
-        showNotification('✅ Sporočilo uspešno poslano!', 'success', 4000);
-        
-    } catch (error) {
-        showNotification('❌ Napaka pri pošiljanju sporočila. Poskusite znova.', 'error', 5000);
-    } finally {
-        // Réactiver le bouton
-        sendButton.disabled = false;
-        sendButton.textContent = 'Pošlji sporočilo';
-        sendButton.style.opacity = '1';
-    }
-}
+            const messageText = document.getElementById('userMessageText').value;
+            const sendButton = event.target;
+            
+            if (!messageText.trim()) {
+                showNotification('Vnesite sporočilo', 'error');
+                return;
+            }
+            
+            if (!currentUser) {
+                showNotification('Napaka: ni uporabnika', 'error');
+                return;
+            }
+            
+            // Désactiver le bouton et changer le texte
+            sendButton.disabled = true;
+            sendButton.textContent = 'Pošiljam...';
+            sendButton.style.opacity = '0.6';
+            
+            try {
+                await apiCall(`/applications/${currentUser}/messages`, 'POST', {
+                    message: messageText,
+                    from: 'user'
+                });
+                
+                // Vider le champ de texte
+                document.getElementById('userMessageText').value = '';
+                
+                // Recharger les messages
+                await loadUserMessages();
+                
+                // Notification de succès
+                showNotification('✅ Sporočilo uspešno poslano!', 'success', 4000);
+                
+            } catch (error) {
+                showNotification('❌ Napaka pri pošiljanju sporočila. Poskusite znova.', 'error', 5000);
+            } finally {
+                // Réactiver le bouton
+                sendButton.disabled = false;
+                sendButton.textContent = 'Pošlji sporočilo';
+                sendButton.style.opacity = '1';
+            }
+        }
 
         async function loadUserMessages() {
             if (!currentUser) return;
@@ -1092,76 +964,196 @@ async function showAdminPanel() {
                 console.error('Error loading messages:', error);
             }
         }
-         // Fonction pour charger les messages dans le panel admin
-async function loadAdminMessages(applicationId) {
-    try {
-        const messages = await apiCall(`/applications/${applicationId}/messages`);
-        const container = document.getElementById(`adminMessages-${applicationId}`);
-        
-        if (!container) return;
-        
-        if (messages.length === 0) {
-            container.innerHTML = '<div style="color: #6b7280; font-style: italic;">Ni sporočil</div>';
-            return;
-        }
-        
-        container.innerHTML = messages.map(msg => `
-            <div style="margin: 5px 0; padding: 8px; background: ${msg.from === 'admin' ? '#e3f2fd' : '#fff3e0'}; border-radius: 5px; border-left: 3px solid ${msg.from === 'admin' ? '#2196f3' : '#ff9800'};">
-                <div style="font-size: 11px; color: #666; margin-bottom: 3px;">
-                    <strong>${msg.from === 'admin' ? '👨‍💼 Admin' : '👤 Stranka'}</strong> - ${new Date(msg.createdAt).toLocaleString('sl-SI')}
-                </div>
-                <div style="font-size: 13px;">${msg.message}</div>
-            </div>
-        `).join('');
-        
-        // Scroll vers le bas pour voir le dernier message
-        container.scrollTop = container.scrollHeight;
-        
-    } catch (error) {
-        console.error('Erreur chargement messages admin:', error);
-    }
-}
 
-// Fonction pour afficher/masquer les messages
-function toggleMessages(applicationId) {
-    const container = document.getElementById(`adminMessages-${applicationId}`);
-    if (container.style.display === 'none') {
-        container.style.display = 'block';
-        loadAdminMessages(applicationId); // Recharger les messages
-    } else {
-        container.style.display = 'none';
-    }
-}
-
-// Auto-actualisation pour l'admin (toutes les 10 secondes)
-let adminAutoRefresh = null;
-
-function startAdminAutoRefresh() {
-    if (adminAutoRefresh) {
-        clearInterval(adminAutoRefresh);
-    }
-    
-    adminAutoRefresh = setInterval(async () => {
-        if (document.getElementById('admin-panel').classList.contains('active')) {
+        // Fonction pour charger les messages dans le panel admin
+        async function loadAdminMessages(applicationId) {
             try {
-                const applications = await apiCall('/admin/applications');
-                // Recharger seulement les messages, pas toute la liste
-                applications.forEach(app => {
-                    loadAdminMessages(app.applicationId);
-                });
+                const messages = await apiCall(`/applications/${applicationId}/messages`);
+                const container = document.getElementById(`adminMessages-${applicationId}`);
+                
+                if (!container) return;
+                
+                if (messages.length === 0) {
+                    container.innerHTML = '<div style="color: #6b7280; font-style: italic;">Ni sporočil</div>';
+                    return;
+                }
+                
+                container.innerHTML = messages.map(msg => `
+                    <div style="margin: 5px 0; padding: 8px; background: ${msg.from === 'admin' ? '#e3f2fd' : '#fff3e0'}; border-radius: 5px; border-left: 3px solid ${msg.from === 'admin' ? '#2196f3' : '#ff9800'};">
+                        <div style="font-size: 11px; color: #666; margin-bottom: 3px;">
+                            <strong>${msg.from === 'admin' ? '👨‍💼 Admin' : '👤 Stranka'}</strong> - ${new Date(msg.createdAt).toLocaleString('sl-SI')}
+                        </div>
+                        <div style="font-size: 13px;">${msg.message}</div>
+                    </div>
+                `).join('');
+                
+                // Scroll vers le bas pour voir le dernier message
+                container.scrollTop = container.scrollHeight;
+                
             } catch (error) {
-                console.error('Erreur auto-refresh admin:', error);
+                console.error('Erreur chargement messages admin:', error);
             }
         }
-    }, 10000); // Toutes les 10 secondes
-}
 
-function stopAdminAutoRefresh() {
-    if (adminAutoRefresh) {
-        clearInterval(adminAutoRefresh);
-        adminAutoRefresh = null;
-    }
-}
+        // Fonction pour afficher/masquer les messages
+        function toggleMessages(applicationId) {
+            const container = document.getElementById(`adminMessages-${applicationId}`);
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                loadAdminMessages(applicationId); // Recharger les messages
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        // Auto-actualisation pour l'admin (toutes les 10 secondes)
+        let adminAutoRefresh = null;
+
+        function startAdminAutoRefresh() {
+            if (adminAutoRefresh) {
+                clearInterval(adminAutoRefresh);
+            }
+            
+            adminAutoRefresh = setInterval(async () => {
+                if (document.getElementById('admin-panel').classList.contains('active')) {
+                    try {
+                        const applications = await apiCall('/admin/applications');
+                        // Recharger seulement les messages, pas toute la liste
+                        applications.forEach(app => {
+                            loadAdminMessages(app.applicationId);
+                        });
+                    } catch (error) {
+                        console.error('Erreur auto-refresh admin:', error);
+                    }
+                }
+            }, 10000); // Toutes les 10 secondes
+        }
+
+        function stopAdminAutoRefresh() {
+            if (adminAutoRefresh) {
+                clearInterval(adminAutoRefresh);
+                adminAutoRefresh = null;
+            }
+        }
+
+        // Fonction de déconnexion administrateur
+        function logoutAdmin() {
+            // Arrêter l'auto-refresh
+            stopAdminAutoRefresh();
+            
+            // Nettoyer les données
+            currentUser = null;
+            
+            // Vider le champ de recherche
+            document.getElementById('trackingNumber').value = '';
+            
+            // Retourner à l'accueil
+            showSection('home');
+            
+            // Notification
+            showNotification('👨‍💼 Uspešna odjava administratorja', 'success', 3000);
+        }
+
+        // Fonction de déconnexion utilisateur
+        function logoutUser() {
+            // Nettoyer les données utilisateur
+            currentUser = null;
+            
+            // Masquer le dashboard
+            document.getElementById('userDashboard').classList.add('hidden');
+            
+            // Vider le champ de recherche
+            document.getElementById('trackingNumber').value = '';
+            
+            // Retourner à l'accueil
+            showSection('home');
+            
+            // Notification
+            showNotification('👤 Uspešna odjava uporabnika', 'success', 3000);
+        }
+
+        // Fonction pour nettoyer lors du changement de section
+        function clearUserSession() {
+            currentUser = null;
+            document.getElementById('userDashboard').classList.add('hidden');
+            document.getElementById('trackingNumber').value = '';
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTestimonials();
+            
+            // Drag and drop pour les fichiers
+            const fileInput = document.querySelector('.file-input');
+            
+            fileInput.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                fileInput.classList.add('dragover');
+            });
+            
+            fileInput.addEventListener('dragleave', function() {
+                fileInput.classList.remove('dragover');
+            });
+            
+            fileInput.addEventListener('drop', function(e) {
+                e.preventDefault();
+                fileInput.classList.remove('dragover');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    document.getElementById('idDocument').files = files;
+                    showNotification('Datoteka naložena: ' + files[0].name);
+                }
+            });
+
+            // Gestion du changement de fichier
+            document.getElementById('idDocument').addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    showNotification('Datoteka naložena: ' + this.files[0].name);
+                }
+            });
+        });
+
+        // Navigation
+        function showSection(sectionId) {
+            // Arrêter l'auto-refresh quand on quitte l'admin
+            if (sectionId !== 'admin-panel') {
+                stopAdminAutoRefresh();
+            }
+            
+            // Nettoyer la session utilisateur quand on change de section
+            if (sectionId === 'home') {
+                clearUserSession();
+            }
+            
+            document.querySelectorAll('.content, .form-section, .tracking-section, .admin-panel').forEach(el => {
+                el.classList.remove('active');
+                el.style.display = 'none';
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Calculateur de crédit
+        function calculateLoan() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const months = parseInt(document.getElementById('months').value);
+            
+            if (amount && months) {
+                const rate = 0.03; // 3% annuel
+                const monthlyRate = rate / 12;
+                const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+                const total = monthlyPayment * months;
+                const interest = total - amount;
+                
+                document.getElementById('simulatorResult').innerHTML = `
+                    <div>Mesečna rata: <strong>${monthlyPayment.toFixed(2)}€</strong></div>
+                    <div>Skupaj vrnete: <strong>${total.toFixed(2)}€</strong></div>
+                    <div>Skupne obresti: <strong>${interest.toFixed(2)}€</strong></div>
+                `;
+            }
+        }
+
         // Témoignages
         function loadTestimonials() {
             const container = document.getElementById('testimonialsContainer');
@@ -1175,16 +1167,16 @@ function stopAdminAutoRefresh() {
         }
 
         // Notifications
-function showNotification(message, type = 'success', duration = 3000) {
-    const notification = document.getElementById('notification');
-    notification.textContent = message;
-    notification.style.backgroundColor = type === 'error' ? '#ef4444' : '#10b981';
-    notification.style.display = 'block';
-    
-    setTimeout(() => {
-        notification.style.display = 'none';
-    }, duration);
-}
+        function showNotification(message, type = 'success', duration = 3000) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.backgroundColor = type === 'error' ? '#ef4444' : '#10b981';
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, duration);
+        }
 
         // Initialisation par défaut
         showSection('home');
