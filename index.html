@@ -802,20 +802,23 @@ document.getElementById('creditForm').addEventListener('submit', async function(
             loadUserMessages();
         }
 
-        // Panel administrateur
-        async function showAdminPanel() {
-            showSection('admin-panel');
-            document.getElementById('adminLoading').style.display = 'block';
-            
-            try {
-                const applications = await apiCall('/admin/applications');
-                loadAdminApplications(applications);
-            } catch (error) {
-                showNotification('Napaka pri nalaganju vlog', 'error');
-            } finally {
-                document.getElementById('adminLoading').style.display = 'none';
-            }
-        }
+       // Panel administrateur
+async function showAdminPanel() {
+    showSection('admin-panel');
+    document.getElementById('adminLoading').style.display = 'block';
+    
+    // Démarrer l'auto-actualisation
+    startAdminAutoRefresh();
+    
+    try {
+        const applications = await apiCall('/admin/applications');
+        loadAdminApplications(applications);
+    } catch (error) {
+        showNotification('Napaka pri nalaganju vlog', 'error');
+    } finally {
+        document.getElementById('adminLoading').style.display = 'none';
+    }
+}
 
         function loadAdminApplications(applications) {
     const container = document.getElementById('adminApplications');
