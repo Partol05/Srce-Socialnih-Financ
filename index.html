@@ -778,34 +778,40 @@ document.getElementById('creditForm').addEventListener('submit', async function(
             }
         }
 
-        // Tableau de bord utilisateur
-        function showUserDashboard(application) {
-            const dashboard = document.getElementById('userDashboard');
-            dashboard.classList.remove('hidden');
-            
-            const statusColors = {
-                pending: 'status-pending',
-                approved: 'status-approved',
-                rejected: 'status-rejected'
-            };
-            
-            const statusTexts = {
-                pending: 'V obravnavi',
-                approved: 'Odobreno',
-                rejected: 'Zavrnjeno'
-            };
-            
-            document.getElementById('applicationStatus').innerHTML = `
-                <div class="status-badge ${statusColors[application.status]}">
-                    ${statusTexts[application.status]}
-                </div>
-                <div>Vloga: ${application.applicationId}</div>
-                <div>Znesek: ${application.amount}€</div>
-                <div>Datum: ${new Date(application.createdAt).toLocaleDateString('sl-SI')}</div>
-            `;
-            
-            loadUserMessages();
-        }
+       // Tableau de bord utilisateur
+function showUserDashboard(application) {
+    const dashboard = document.getElementById('userDashboard');
+    dashboard.classList.remove('hidden');
+    
+    const statusColors = {
+        pending: 'status-pending',
+        approved: 'status-approved',
+        rejected: 'status-rejected'
+    };
+    
+    const statusTexts = {
+        pending: 'V obravnavi',
+        approved: 'Odobreno',
+        rejected: 'Zavrnjeno'
+    };
+    
+    document.getElementById('applicationStatus').innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0;">Status vaše vloge</h3>
+            <button onclick="logoutUser()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">
+                🚪 Odjava
+            </button>
+        </div>
+        <div class="status-badge ${statusColors[application.status]}">
+            ${statusTexts[application.status]}
+        </div>
+        <div>Vloga: ${application.applicationId}</div>
+        <div>Znesek: ${application.amount}€</div>
+        <div>Datum: ${new Date(application.createdAt).toLocaleDateString('sl-SI')}</div>
+    `;
+    
+    loadUserMessages();
+}
 
        // Panel administrateur
 async function showAdminPanel() {
