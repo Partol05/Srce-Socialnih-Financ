@@ -686,11 +686,16 @@ function clearUserSession() {
             });
         });
 
-       // Navigation
+      // Navigation
 function showSection(sectionId) {
     // Arrêter l'auto-refresh quand on quitte l'admin
     if (sectionId !== 'admin-panel') {
         stopAdminAutoRefresh();
+    }
+    
+    // Nettoyer la session utilisateur quand on change de section
+    if (sectionId === 'home') {
+        clearUserSession();
     }
     
     document.querySelectorAll('.content, .form-section, .tracking-section, .admin-panel').forEach(el => {
