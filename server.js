@@ -13,8 +13,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://admin:admin123@cluster0.mongodb.net/srce-financ?retryWrites=true&w=majority';
-
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://mxph65:FY5FIjjwMPTjUj68@srce-financ-cluster.xl0fga4.mongodb.net/srce-financ?retryWrites=true&w=majority&appName=srce-financ-cluster';
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
