@@ -885,21 +885,48 @@ document.getElementById('creditForm').addEventListener('submit', async function(
         }
 
         async function sendUserMessage() {
-            const messageText = document.getElementById('userMessageText').value;
-            if (messageText.trim() && currentUser) {
-                try {
-                    await apiCall(`/applications/${currentUser}/messages`, 'POST', {
-                        message: messageText,
-                        from: 'user'
-                    });
-                    document.getElementById('userMessageText').value = '';
-                    loadUserMessages();
-                    showNotification('Sporočilo poslano!');
-                } catch (error) {
-                    showNotification('Napaka pri pošiljanju sporočila', 'error');
-                }
-            }
-        }
+    const messageText = document.getElementById('userMessageText').value;
+    const sendButton = event.target;
+    
+    if (!messageText.trim()) {
+        showNotification('Vnesite sporočilo', 'error');
+        return;
+    }
+    
+    if (!currentUser) {
+        showNotification('Napaka: ni uporabnika', 'error');
+        return;
+    }
+    
+    // Désactiver le bouton et changer le texte
+    sendButton.disabled = true;
+    sendButton.textContent = 'Pošiljam...';
+    sendButton.style.opacity = '0.6';
+    
+    try {
+        await apiCall(`/applications/${currentUser}/messages`, 'POST', {
+            message: messageText,
+            from: 'user'
+        });
+        
+        // Vider le champ de texte
+        document.getElementById('userMessageText').value = '';
+        
+        // Recharger les messages
+        await loadUserMessages();
+        
+        // Notification de succès
+        showNotification('✅ Sporočilo uspešno poslano!', 'success', 4000);
+        
+    } catch (error) {
+        showNotification('❌ Napaka pri pošiljanju sporočila. Poskusite znova.', 'error', 5000);
+    } finally {
+        // Réactiver le bouton
+        sendButton.disabled = false;
+        sendButton.textContent = 'Pošlji sporočilo';
+        sendButton.style.opacity = '1';
+    }
+}
 
         async function loadUserMessages() {
             if (!currentUser) return;
