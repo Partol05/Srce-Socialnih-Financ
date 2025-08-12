@@ -942,28 +942,30 @@ async function showAdminPanel() {
         const card = document.createElement('div');
         card.className = 'admin-card';
         card.innerHTML = `
-            <div><strong>${app.firstName} ${app.lastName}</strong></div>
-            <div>Vloga: ${app.applicationId}</div>
-            <div>Znesek: ${app.amount}€ / ${app.months} mesecev</div>
-            <div>Dohodek: ${app.income}€/mesec</div>
-            <div>Status: <span class="status-badge status-${app.status}">${statusTexts[app.status]}</span></div>
-            <div>Datum: ${new Date(app.createdAt).toLocaleDateString('sl-SI')}</div>
-            <div style="margin: 10px 0;">
-                <strong>💬 Sporočila (${messageCount})</strong>
-                <div id="adminMessages-${app.applicationId}" style="max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 5px 0;"></div>
-                <button onclick="toggleMessages('${app.applicationId}')" style="background: #6b7280; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-bottom: 10px;">
-                    Prikaži/Skrij sporočila
-                </button>
-            </div>
-            <div class="admin-buttons">
-                <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
-                <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
-            </div>
-            <div style="margin-top: 10px;">
-                <textarea placeholder="Sporočilo stranki..." id="adminMessage-${app.applicationId}" rows="2" style="width: 100%; margin-bottom: 5px;"></textarea>
-                <button onclick="sendAdminMessage('${app.applicationId}')" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Pošlji sporočilo</button>
-            </div>
-        `;
+    <div><strong>${app.firstName} ${app.lastName}</strong></div>
+    <div>📧 Email: ${app.email || 'Ni podano'}</div>
+    <div>📍 ${app.city}, ${app.country}</div>
+    <div>Vloga: ${app.applicationId}</div>
+    <div>Znesek: ${app.amount}€ / ${app.months} mesecev</div>
+    <div>Dohodek: ${app.income}€/mesec</div>
+    <div>Status: <span class="status-badge status-${app.status}">${statusTexts[app.status]}</span></div>
+    <div>Datum: ${new Date(app.createdAt).toLocaleDateString('sl-SI')}</div>
+    <div style="margin: 10px 0;">
+        <strong>💬 Sporočila (${messageCount})</strong>
+        <div id="adminMessages-${app.applicationId}" style="max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 5px; margin: 5px 0;"></div>
+        <button onclick="toggleMessages('${app.applicationId}')" style="background: #6b7280; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-bottom: 10px;">
+            Prikaži/Skrij sporočila
+        </button>
+    </div>
+    <div class="admin-buttons">
+        <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
+        <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
+    </div>
+    <div style="margin-top: 10px;">
+        <textarea placeholder="Sporočilo stranki..." id="adminMessage-${app.applicationId}" rows="2" style="width: 100%; margin-bottom: 5px;"></textarea>
+        <button onclick="sendAdminMessage('${app.applicationId}')" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Pošlji sporočilo</button>
+    </div>
+`;
         container.appendChild(card);
         
         // Charger les messages pour cette application
