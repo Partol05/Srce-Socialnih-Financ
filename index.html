@@ -489,15 +489,15 @@
         </div>
 
         <!-- Suivi de dossier -->
-        <div id="tracking" class="tracking-section content">
-            <button class="back-btn" onclick="showSection('home')">← Nazaj</button>
-            <h2 style="margin-bottom: 20px; color: #1f2937;">Spremljanje vloge</h2>
-            
-            <div class="form-group">
-                <label>Vnesite številko sledenja ali admin kodo</label>
-                <input type="text" id="trackingNumber" placeholder="npr. KR-2025-001 ali ADMINX2025">
-            </div>
-            <button onclick="checkTracking()" class="submit-btn">Preveri status</button>
+<div id="tracking" class="tracking-section content">
+    <button class="back-btn" onclick="showSection('home')">← Nazaj</button>
+    <h2 style="margin-bottom: 20px; color: #1f2937;">Spremljanje vloge</h2>
+    
+    <div class="form-group">
+        <label>Vnesite številko sledenja</label>
+        <input type="text" id="trackingNumber" placeholder="KR-2025-001">
+    </div>
+    <button onclick="checkTracking()" class="submit-btn">Preveri status</button>
 
             <div id="trackingLoading" class="loading">
                 <div class="spinner"></div>
