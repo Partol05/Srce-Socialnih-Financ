@@ -990,7 +990,76 @@ document.getElementById('creditForm').addEventListener('submit', async function(
                 console.error('Error loading messages:', error);
             }
         }
+         // Fonction pour charger les messages dans le panel admin
+async function loadAdminMessages(applicationId) {
+    try {
+        const messages = await apiCall(`/applications/${applicationId}/messages`);
+        const container = document.getElementById(`adminMessages-${applicationId}`);
+        
+        if (!container) return;
+        
+        if (messages.length === 0) {
+            container.innerHTML = '<div style="color: #6b7280; font-style: italic;">Ni sporočil</div>';
+            return;
+        }
+        
+        container.innerHTML = messages.map(msg => `
+            <div style="margin: 5px 0; padding: 8px; background: ${msg.from === 'admin' ? '#e3f2fd' : '#fff3e0'}; border-radius: 5px; border-left: 3px solid ${msg.from === 'admin' ? '#2196f3' : '#ff9800'};">
+                <div style="font-size: 11px; color: #666; margin-bottom: 3px;">
+                    <strong>${msg.from === 'admin' ? '👨‍💼 Admin' : '👤 Stranka'}</strong> - ${new Date(msg.createdAt).toLocaleString('sl-SI')}
+                </div>
+                <div style="font-size: 13px;">${msg.message}</div>
+            </div>
+        `).join('');
+        
+        // Scroll vers le bas pour voir le dernier message
+        container.scrollTop = container.scrollHeight;
+        
+    } catch (error) {
+        console.error('Erreur chargement messages admin:', error);
+    }
+}
 
+// Fonction pour afficher/masquer les messages
+function toggleMessages(applicationId) {
+    const container = document.getElementById(`adminMessages-${applicationId}`);
+    if (container.style.display === 'none') {
+        container.style.display = 'block';
+        loadAdminMessages(applicationId); // Recharger les messages
+    } else {
+        container.style.display = 'none';
+    }
+}
+
+// Auto-actualisation pour l'admin (toutes les 10 secondes)
+let adminAutoRefresh = null;
+
+function startAdminAutoRefresh() {
+    if (adminAutoRefresh) {
+        clearInterval(adminAutoRefresh);
+    }
+    
+    adminAutoRefresh = setInterval(async () => {
+        if (document.getElementById('admin-panel').classList.contains('active')) {
+            try {
+                const applications = await apiCall('/admin/applications');
+                // Recharger seulement les messages, pas toute la liste
+                applications.forEach(app => {
+                    loadAdminMessages(app.applicationId);
+                });
+            } catch (error) {
+                console.error('Erreur auto-refresh admin:', error);
+            }
+        }
+    }, 10000); // Toutes les 10 secondes
+}
+
+function stopAdminAutoRefresh() {
+    if (adminAutoRefresh) {
+        clearInterval(adminAutoRefresh);
+        adminAutoRefresh = null;
+    }
+}
         // Témoignages
         function loadTestimonials() {
             const container = document.getElementById('testimonialsContainer');
