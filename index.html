@@ -610,7 +610,48 @@
                 text: "Prijazno osebje in transparentni pogoji. Popolnoma zadovoljna!"
             }
         ];
+// Fonction de déconnexion administrateur
+function logoutAdmin() {
+    // Arrêter l'auto-refresh
+    stopAdminAutoRefresh();
+    
+    // Nettoyer les données
+    currentUser = null;
+    
+    // Vider le champ de recherche
+    document.getElementById('trackingNumber').value = '';
+    
+    // Retourner à l'accueil
+    showSection('home');
+    
+    // Notification
+    showNotification('👨‍💼 Uspešna odjava administratorja', 'success', 3000);
+}
 
+// Fonction de déconnexion utilisateur
+function logoutUser() {
+    // Nettoyer les données utilisateur
+    currentUser = null;
+    
+    // Masquer le dashboard
+    document.getElementById('userDashboard').classList.add('hidden');
+    
+    // Vider le champ de recherche
+    document.getElementById('trackingNumber').value = '';
+    
+    // Retourner à l'accueil
+    showSection('home');
+    
+    // Notification
+    showNotification('👤 Uspešna odjava uporabnika', 'success', 3000);
+}
+
+// Fonction pour nettoyer lors du changement de section
+function clearUserSession() {
+    currentUser = null;
+    document.getElementById('userDashboard').classList.add('hidden');
+    document.getElementById('trackingNumber').value = '';
+}
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
             loadTestimonials();
