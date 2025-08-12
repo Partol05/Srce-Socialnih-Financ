@@ -645,16 +645,21 @@
             });
         });
 
-        // Navigation
-        function showSection(sectionId) {
-            document.querySelectorAll('.content, .form-section, .tracking-section, .admin-panel').forEach(el => {
-                el.classList.remove('active');
-                el.style.display = 'none';
-            });
-            
-            document.getElementById(sectionId).classList.add('active');
-            document.getElementById(sectionId).style.display = 'block';
-        }
+       // Navigation
+function showSection(sectionId) {
+    // Arrêter l'auto-refresh quand on quitte l'admin
+    if (sectionId !== 'admin-panel') {
+        stopAdminAutoRefresh();
+    }
+    
+    document.querySelectorAll('.content, .form-section, .tracking-section, .admin-panel').forEach(el => {
+        el.classList.remove('active');
+        el.style.display = 'none';
+    });
+    
+    document.getElementById(sectionId).classList.add('active');
+    document.getElementById(sectionId).style.display = 'block';
+}
 
         // Calculateur de crédit
         function calculateLoan() {
