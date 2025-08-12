@@ -939,16 +939,16 @@ document.getElementById('creditForm').addEventListener('submit', async function(
         }
 
         // Notifications
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.backgroundColor = type === 'error' ? '#ef4444' : '#10b981';
-            notification.style.display = 'block';
-            
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
+function showNotification(message, type = 'success', duration = 3000) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.style.backgroundColor = type === 'error' ? '#ef4444' : '#10b981';
+    notification.style.display = 'block';
+    
+    setTimeout(() => {
+        notification.style.display = 'none';
+    }, duration);
+}
 
         // Initialisation par défaut
         showSection('home');
