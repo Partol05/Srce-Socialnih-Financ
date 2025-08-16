@@ -674,16 +674,16 @@
             document.getElementById('creditForm').style.display = 'none';
             
             try {
-                const formData = {
-                    firstName: document.getElementById('firstName').value,
-                    lastName: document.getElementById('lastName').value,
-                    country: document.getElementById('country').value,
-                    city: document.getElementById('city').value,
-                    address: document.getElementById('address').value,
-                    amount: parseFloat(document.getElementById('amount').value),
-                    months: parseInt(document.getElementById('months').value),
-                    income: parseFloat(document.getElementById('income').value)
-                };
+               const formData = {
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    country: document.getElementById('country').value,
+    city: document.getElementById('city').value,
+    address: document.getElementById('address').value,
+    amount: parseFloat(document.getElementById('amount').value),
+    months: parseInt(document.getElementById('months').value),
+    income: parseFloat(document.getElementById('income').value)
+};
 
                 const result = await apiCall('/applications', 'POST', formData);
                 
