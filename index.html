@@ -734,40 +734,119 @@
             }
         }
 
-        // Tableau de bord utilisateur
-        function showUserDashboard(application) {
-            const dashboard = document.getElementById('userDashboard');
-            dashboard.classList.remove('hidden');
-            
-            const statusColors = {
-                pending: 'status-pending',
-                approved: 'status-approved',
-                rejected: 'status-rejected'
-            };
-            
-            const statusTexts = {
-                pending: 'V obravnavi',
-                approved: 'Odobreno',
-                rejected: 'Zavrnjeno'
-            };
-            
-            document.getElementById('applicationStatus').innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 style="margin: 0;">Status vaše vloge</h3>
-                    <button onclick="logoutUser()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">
-                        🚪 Odjava
-                    </button>
-                </div>
-                <div class="status-badge ${statusColors[application.status]}">
-                    ${statusTexts[application.status]}
-                </div>
-                <div>Vloga: ${application.applicationId}</div>
-                <div>Znesek: ${application.amount}€</div>
-                <div>Datum: ${new Date(application.createdAt).toLocaleDateString('sl-SI')}</div>
-            `;
-            
-            loadUserMessages();
-        }
+       // Tableau de bord utilisateur
+function showUserDashboard(application) {
+    const dashboard = document.getElementById('userDashboard');
+    dashboard.classList.remove('hidden');
+    
+    const statusColors = {
+        pending: 'status-pending',
+        approved: 'status-approved',
+        rejected: 'status-rejected'
+    };
+    
+    const statusTexts = {
+        pending: 'V obravnavi',
+        approved: 'Odobreno',
+        rejected: 'Zavrnjeno'
+    };
+    
+    // Calculer les détails du crédit
+    const amount = application.amount;
+    const months = application.months;
+    const rate = 0.03; // 3% annuel
+    const monthlyRate = rate / 12;
+    const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+    const total = monthlyPayment * months;
+    const interest = total - amount;
+    
+    document.getElementById('applicationStatus').innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0;">Vaša kreditna vloga</h3>
+            <button onclick="logoutUser()" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-size: 12px;">
+                🚪 Odjava
+            </button>
+        </div>
+        
+        <!-- Status -->
+        <div style="margin-bottom: 20px; text-align: center;">
+            <div class="status-badge ${statusColors[application.status]}" style="font-size: 14px; padding: 10px 20px;">
+                ${statusTexts[application.status]}
+            </div>
+            <div style="font-size: 13px; color: #6b7280; margin-top: 10px;">Številka vloge: <strong>${application.applicationId}</strong></div>
+            <div style="font-size: 13px; color: #6b7280;">Datum vloge: <strong>${new Date(application.createdAt).toLocaleDateString('sl-SI')}</strong></div>
+        </div>
+
+        <!-- Osebni podatki -->
+        <div style="background: white; padding: 15px; border-radius: 10px; margin: 15px 0; border: 2px solid #e5e7eb;">
+            <h4 style="margin: 0 0 12px 0; color: #374151; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px;">👤 Osebni podatki</h4>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Ime:</span>
+                <span style="font-weight: 600;">${application.firstName}</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Priimek:</span>
+                <span style="font-weight: 600;">${application.lastName}</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">E-pošta:</span>
+                <span style="font-weight: 600;">${application.email || 'Ni podano'}</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Država:</span>
+                <span style="font-weight: 600;">${application.country}</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Mesto:</span>
+                <span style="font-weight: 600;">${application.city}</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0;">
+                <div style="color: #6b7280; margin-bottom: 4px;">Naslov:</div>
+                <div style="font-weight: 600; background: #f9fafb; padding: 8px; border-radius: 5px;">${application.address}</div>
+            </div>
+        </div>
+
+        <!-- Podatki o kreditu -->
+        <div style="background: white; padding: 15px; border-radius: 10px; margin: 15px 0; border: 2px solid #e5e7eb;">
+            <h4 style="margin: 0 0 12px 0; color: #374151; border-bottom: 1px solid #e5e7eb; padding-bottom: 8px;">💰 Podatki o kreditu</h4>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Zahtevani znesek:</span>
+                <span style="font-weight: 600; color: #059669;">${amount.toLocaleString()}€</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Obdobje vračanja:</span>
+                <span style="font-weight: 600;">${months} mesecev</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Vaš mesečni dohodek:</span>
+                <span style="font-weight: 600;">${application.income.toLocaleString()}€</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #6b7280;">Obrestna mera:</span>
+                <span style="font-weight: 600; color: #3b82f6;">3% letno</span>
+            </div>
+        </div>
+
+        <!-- Kalkulacija -->
+        <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 15px; border-radius: 10px; margin: 15px 0; border: 2px solid #3b82f6;">
+            <h4 style="margin: 0 0 12px 0; color: #1d4ed8; border-bottom: 1px solid rgba(59, 130, 246, 0.3); padding-bottom: 8px;">📊 Kalkulacija vračanja</h4>
+            <div style="font-size: 15px; margin: 10px 0; display: flex; justify-content: space-between; background: rgba(255,255,255,0.7); padding: 8px; border-radius: 5px;">
+                <span style="color: #1e40af;">Mesečna rata:</span>
+                <span style="font-weight: bold; color: #1d4ed8;">${monthlyPayment.toFixed(2)}€</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #374151;">Skupaj za vrnitev:</span>
+                <span style="font-weight: 600;">${total.toFixed(2)}€</span>
+            </div>
+            <div style="font-size: 14px; margin: 8px 0; display: flex; justify-content: space-between;">
+                <span style="color: #374151;">Skupne obresti:</span>
+                <span style="font-weight: 600; color: #dc2626;">${interest.toFixed(2)}€</span>
+            </div>
+        </div>
+    `;
+    
+    loadUserMessages();
+}
 
         // Panel administrateur
         async function showAdminPanel() {
