@@ -1386,6 +1386,221 @@ function showUserDashboard(application) {
 
         // Initialisation par défaut
         showSection('home');
+        // Système de traduction simplifié
+let currentLanguage = 'sl';
+
+// Traductions pour 3 langues
+const translations = {
+    sl: {
+        appTitle: "Srce Socialnih Financ",
+        tagline: "Vaš zanesljiv partner za finančne rešitve",
+        creditRequest: "Zahteva za kredit",
+        creditRequestDesc: "Vložite vašo kreditno vlogo",
+        trackingApplication: "Spremljanje vloge",
+        trackingApplicationDesc: "Preverite status vaše vloge",
+        testimonials: "Pričevanja",
+        testimonialsDesc: "Izkušnje naših strank",
+        back: "← Nazaj",
+        firstName: "Ime *",
+        lastName: "Priimek *",
+        email: "E-pošta *",
+        country: "Država *",
+        city: "Mesto *",
+        address: "Polni naslov *",
+        amount: "Znesek kredita (€) *",
+        months: "Meseci vračanja (1-120) *",
+        income: "Mesečni dohodek (€) *",
+        submitApplication: "Pošljite vlogo",
+        trackingNumber: "Vnesite številko sledenja",
+        checkStatus: "Preveri status",
+        logout: "🚪 Odjava",
+        sendMessage: "Pošlji sporočilo",
+        approve: "Odobri",
+        reject: "Zavrni",
+        adminPanel: "Administratorski panel"
+    },
+    
+    es: {
+        appTitle: "Corazón de Finanzas Sociales",
+        tagline: "Su socio confiable para soluciones financieras",
+        creditRequest: "Solicitud de crédito",
+        creditRequestDesc: "Envíe su solicitud de crédito",
+        trackingApplication: "Seguimiento de solicitud",
+        trackingApplicationDesc: "Verifique el estado de su solicitud",
+        testimonials: "Testimonios",
+        testimonialsDesc: "Experiencias de nuestros clientes",
+        back: "← Atrás",
+        firstName: "Nombre *",
+        lastName: "Apellido *",
+        email: "Correo electrónico *",
+        country: "País *",
+        city: "Ciudad *",
+        address: "Dirección completa *",
+        amount: "Monto del crédito (€) *",
+        months: "Meses de reembolso (1-120) *",
+        income: "Ingresos mensuales (€) *",
+        submitApplication: "Enviar solicitud",
+        trackingNumber: "Ingrese número de seguimiento",
+        checkStatus: "Verificar estado",
+        logout: "🚪 Cerrar sesión",
+        sendMessage: "Enviar mensaje",
+        approve: "Aprobar",
+        reject: "Rechazar",
+        adminPanel: "Panel de administrador"
+    },
+    
+    hr: {
+        appTitle: "Srce Socijalnih Financija",
+        tagline: "Vaš pouzdani partner za financijska rješenja",
+        creditRequest: "Zahtjev za kredit",
+        creditRequestDesc: "Pošaljite svoj zahtjev za kredit",
+        trackingApplication: "Praćenje zahtjeva",
+        trackingApplicationDesc: "Provjerite status vašeg zahtjeva",
+        testimonials: "Svjedočanstva",
+        testimonialsDesc: "Iskustva naših klijenata",
+        back: "← Natrag",
+        firstName: "Ime *",
+        lastName: "Prezime *",
+        email: "E-pošta *",
+        country: "Zemlja *",
+        city: "Grad *",
+        address: "Puna adresa *",
+        amount: "Iznos kredita (€) *",
+        months: "Mjeseci otplate (1-120) *",
+        income: "Mjesečni prihod (€) *",
+        submitApplication: "Pošaljite zahtjev",
+        trackingNumber: "Unesite broj praćenja",
+        checkStatus: "Provjeri status",
+        logout: "🚪 Odjava",
+        sendMessage: "Pošaljite poruku",
+        approve: "Odobri",
+        reject: "Odbaci",
+        adminPanel: "Administratorski panel"
+    }
+};
+
+// Fonction de traduction
+function t(key) {
+    return translations[currentLanguage] && translations[currentLanguage][key] 
+        ? translations[currentLanguage][key] 
+        : translations['sl'][key] || key;
+}
+
+// Détection automatique de la langue du navigateur
+function detectBrowserLanguage() {
+    const supportedLanguages = {
+        'sl': ['sl', 'sl-SI'],
+        'es': ['es', 'es-ES', 'es-MX', 'es-AR'],
+        'hr': ['hr', 'hr-HR']
+    };
+    
+    const browserLanguages = navigator.languages || [navigator.language || navigator.userLanguage || 'sl'];
+    
+    for (const browserLang of browserLanguages) {
+        const cleanLang = browserLang.toLowerCase();
+        for (const [supportedCode, variants] of Object.entries(supportedLanguages)) {
+            if (variants.some(variant => cleanLang.startsWith(variant.split('-')[0]))) {
+                return supportedCode;
+            }
+        }
+    }
+    
+    return 'sl';
+}
+
+// Fonctions du sélecteur
+function toggleLanguageDropdown() {
+    const dropdown = document.getElementById('languageDropdown');
+    dropdown.classList.toggle('active');
+}
+
+// Fermer le dropdown si on clique ailleurs
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('languageDropdown');
+    if (dropdown && !dropdown.contains(event.target)) {
+        dropdown.classList.remove('active');
+    }
+});
+
+function changeLanguage(langCode) {
+    const languages = {
+        'sl': { flag: '🇸🇮', name: 'Slovenščina' },
+        'es': { flag: '🇪🇸', name: 'Español' },
+        'hr': { flag: '🇭🇷', name: 'Hrvatski' }
+    };
+    
+    if (languages[langCode]) {
+        currentLanguage = langCode;
+        
+        document.getElementById('currentFlag').textContent = languages[langCode].flag;
+        document.getElementById('currentLang').textContent = languages[langCode].name;
+        
+        document.querySelectorAll('.language-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        event.target.closest('.language-option').classList.add('active');
+        
+        localStorage.setItem('selectedLanguage', langCode);
+        document.getElementById('languageDropdown').classList.remove('active');
+        
+        translatePage();
+        showNotification(`Jezik promijenjen na ${languages[langCode].name}`, 'success', 2000);
+    }
+}
+
+function translatePage() {
+    const appTitle = document.querySelector('.app-title');
+    if (appTitle) appTitle.textContent = t('appTitle');
+    
+    const taglineElements = document.querySelectorAll('div[style*="font-size: 14px"]');
+    taglineElements.forEach(el => {
+        if (el.textContent.includes('partner') || el.textContent.includes('zanesljiv')) {
+            el.textContent = t('tagline');
+        }
+    });
+    
+    const optionCards = document.querySelectorAll('.option-card');
+    if (optionCards[0]) {
+        optionCards[0].innerHTML = `
+            📋 ${t('creditRequest')}
+            <div style="font-size: 12px; margin-top: 5px;">${t('creditRequestDesc')}</div>
+        `;
+    }
+    if (optionCards[1]) {
+        optionCards[1].innerHTML = `
+            🔍 ${t('trackingApplication')}
+            <div style="font-size: 12px; margin-top: 5px;">${t('trackingApplicationDesc')}</div>
+        `;
+    }
+    if (optionCards[2]) {
+        optionCards[2].innerHTML = `
+            ⭐ ${t('testimonials')}
+            <div style="font-size: 12px; margin-top: 5px;">${t('testimonialsDesc')}</div>
+        `;
+    }
+}
+
+function initializeLanguage() {
+    const savedLanguage = localStorage.getItem('selectedLanguage');
+    const detectedLanguage = savedLanguage || detectBrowserLanguage();
+    
+    if (detectedLanguage !== currentLanguage) {
+        const languages = {
+            'sl': { flag: '🇸🇮', name: 'Slovenščina' },
+            'es': { flag: '🇪🇸', name: 'Español' },
+            'hr': { flag: '🇭🇷', name: 'Hrvatski' }
+        };
+        
+        currentLanguage = detectedLanguage;
+        
+        if (languages[detectedLanguage]) {
+            document.getElementById('currentFlag').textContent = languages[detectedLanguage].flag;
+            document.getElementById('currentLang').textContent = languages[detectedLanguage].name;
+        }
+        
+        translatePage();
+    }
+}
     </script>
 </body>
 </html>
