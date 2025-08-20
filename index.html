@@ -479,6 +479,33 @@
 <body>
     <div class="container">
        <div class="header">
+    <!-- Sélecteur de langues -->
+    <div class="language-selector">
+        <div class="language-dropdown" id="languageDropdown">
+            <button class="language-btn" onclick="toggleLanguageDropdown()">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="flag" id="currentFlag">🇸🇮</span>
+                    <span id="currentLang">Slovenščina</span>
+                </div>
+                <span class="dropdown-arrow">▼</span>
+            </button>
+            <div class="language-dropdown-content">
+                <div class="language-option active" onclick="changeLanguage('sl')">
+                    <span class="flag">🇸🇮</span>
+                    <span>Slovenščina</span>
+                </div>
+                <div class="language-option" onclick="changeLanguage('es')">
+                    <span class="flag">🇪🇸</span>
+                    <span>Español</span>
+                </div>
+                <div class="language-option" onclick="changeLanguage('hr')">
+                    <span class="flag">🇭🇷</span>
+                    <span>Hrvatski</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="logo-section">
         <div class="water-drop"></div>
         <div class="app-title">Srce Socialnih Financ</div>
