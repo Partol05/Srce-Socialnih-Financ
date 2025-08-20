@@ -1549,21 +1549,17 @@ function changeLanguage(langCode) {
         showNotification(`Jezik promijenjen na ${languages[langCode].name}`, 'success', 2000);
     }
 }
-
 function translatePage() {
-    // Traduire le titre de l'application
     const appTitle = document.querySelector('.app-title');
     if (appTitle) appTitle.textContent = t('appTitle');
     
-    // Traduire la tagline
     const taglineElements = document.querySelectorAll('div[style*="font-size: 14px"]');
     taglineElements.forEach(el => {
-        if (el.textContent.includes('partner') || el.textContent.includes('zanesljiv') || el.textContent.includes('socio') || el.textContent.includes('pouzdani')) {
+        if (el.textContent.includes('partner') || el.textContent.includes('zanesljiv')) {
             el.textContent = t('tagline');
         }
     });
     
-    // Traduire les boutons principaux
     const optionCards = document.querySelectorAll('.option-card');
     if (optionCards[0]) {
         optionCards[0].innerHTML = `
@@ -1583,82 +1579,6 @@ function translatePage() {
             <div style="font-size: 12px; margin-top: 5px;">${t('testimonialsDesc')}</div>
         `;
     }
-    
-    // Traduire les labels du formulaire
-    const labels = document.querySelectorAll('label');
-    labels.forEach(label => {
-        const text = label.textContent.trim();
-        
-        // Correspondances pour les labels
-        if (text.includes('Ime') || text.includes('Nombre') || text.includes('Ime')) {
-            label.textContent = t('firstName');
-        } else if (text.includes('Priimek') || text.includes('Apellido') || text.includes('Prezime')) {
-            label.textContent = t('lastName');
-        } else if (text.includes('E-pošta') || text.includes('Correo') || text.includes('E-mail')) {
-            label.textContent = t('email');
-        } else if (text.includes('Država') || text.includes('País') || text.includes('Zemlja')) {
-            label.textContent = t('country');
-        } else if (text.includes('Mesto') || text.includes('Ciudad') || text.includes('Grad')) {
-            label.textContent = t('city');
-        } else if (text.includes('naslov') || text.includes('Dirección') || text.includes('adresa')) {
-            label.textContent = t('address');
-        } else if (text.includes('Znesek') || text.includes('Monto') || text.includes('Iznos')) {
-            label.textContent = t('amount');
-        } else if (text.includes('Meseci') || text.includes('Meses') || text.includes('Mjeseci')) {
-            label.textContent = t('months');
-        } else if (text.includes('dohodek') || text.includes('Ingresos') || text.includes('prihod')) {
-            label.textContent = t('income');
-        } else if (text.includes('številko') || text.includes('número') || text.includes('broj')) {
-            label.textContent = t('trackingNumber');
-        }
-    });
-    
-    // Traduire les boutons
-    const buttons = document.querySelectorAll('button');
-    buttons.forEach(button => {
-        const text = button.textContent.trim();
-        
-        if (text.includes('Nazaj') || text.includes('Atrás') || text.includes('Natrag')) {
-            button.textContent = t('back');
-        } else if (text.includes('Pošljite vlogo') || text.includes('Enviar solicitud') || text.includes('Pošaljite zahtjev')) {
-            button.textContent = t('submitApplication');
-        } else if (text.includes('Preveri status') || text.includes('Verificar estado') || text.includes('Provjeri status')) {
-            button.textContent = t('checkStatus');
-        } else if (text.includes('Odjava') || text.includes('Cerrar sesión')) {
-            button.innerHTML = t('logout');
-        } else if (text.includes('Pošlji sporočilo') || text.includes('Enviar mensaje') || text.includes('Pošaljite poruku')) {
-            button.textContent = t('sendMessage');
-        } else if (text === 'Odobri' || text === 'Aprobar' || text === 'Odobri') {
-            button.textContent = t('approve');
-        } else if (text === 'Zavrni' || text === 'Rechazar' || text === 'Odbaci') {
-            button.textContent = t('reject');
-        }
-    });
-    
-    // Traduire les titres de sections
-    const headings = document.querySelectorAll('h2, h3, h4');
-    headings.forEach(heading => {
-        const text = heading.textContent.trim();
-        
-        if (text.includes('Zahteva za kredit') || text.includes('Solicitud de crédito') || text.includes('Zahtjev za kredit')) {
-            heading.textContent = t('creditRequest');
-        } else if (text.includes('Spremljanje vloge') || text.includes('Seguimiento') || text.includes('Praćenje zahtjeva')) {
-            heading.textContent = t('trackingApplication');
-        } else if (text.includes('Pričevanja') || text.includes('Testimonios') || text.includes('Svjedočanstva')) {
-            heading.textContent = t('testimonials');
-        } else if (text.includes('Administratorski panel') || text.includes('Panel de administrador')) {
-            heading.textContent = t('adminPanel');
-        }
-    });
-    
-    // Traduire les placeholders
-    const inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
-    inputs.forEach(input => {
-        const placeholder = input.placeholder;
-        if (placeholder.includes('sporočilo') || placeholder.includes('mensaje') || placeholder.includes('poruku')) {
-            input.placeholder = t('writeMessage');
-        }
-    });
 }
 function initializeLanguage() {
     const savedLanguage = localStorage.getItem('selectedLanguage');
