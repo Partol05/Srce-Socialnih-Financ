@@ -1685,63 +1685,6 @@ function translatePage() {
             input.placeholder = t('writeMessage');
         }
     });
-    // Traduire le simulateur
-const simulatorTitle = document.querySelector('h4');
-if (simulatorTitle && simulatorTitle.textContent.includes('Simulator')) {
-    simulatorTitle.textContent = t('simulator');
-}
-
-// Traduire le résultat du simulateur
-const simulatorResult = document.getElementById('simulatorResult');
-if (simulatorResult && simulatorResult.textContent.includes('Vnesite')) {
-    simulatorResult.textContent = t('simulatorPlaceholder');
-}
-
-// Traduire la section document
-const documentLabels = document.querySelectorAll('label');
-documentLabels.forEach(label => {
-    if (label.textContent.includes('Osebni dokument') || label.textContent.includes('Documento') || label.textContent.includes('Osobni')) {
-        label.textContent = t('document');
-    }
-});
-
-// Traduire le bouton upload
-const uploadBtn = document.querySelector('.file-input div');
-if (uploadBtn && uploadBtn.textContent.includes('Kliknite')) {
-    uploadBtn.textContent = t('documentUpload');
-}
-
-// Traduire le type de fichier
-const fileType = document.querySelectorAll('.file-input div')[1];
-if (fileType && fileType.textContent.includes('PDF')) {
-    fileType.textContent = t('documentType');
-}
-
-// Traduire les options de pays
-const countrySelect = document.getElementById('country');
-if (countrySelect) {
-    const options = countrySelect.querySelectorAll('option');
-    if (options[0]) options[0].textContent = t('selectCountry');
-    if (options[1]) options[1].textContent = t('slovenia');
-    if (options[2]) options[2].textContent = t('croatia');
-    if (options[3]) options[3].textContent = t('austria');
-    if (options[4]) options[4].textContent = t('italy');
-}
-
-// Traduire les résultats du simulateur (montants)
-const calculationElements = document.querySelectorAll('#simulatorResult div');
-calculationElements.forEach(el => {
-    const text = el.innerHTML;
-    if (text.includes('Mesečna rata:') || text.includes('Cuota mensual:') || text.includes('Mjesečna rata:')) {
-        el.innerHTML = text.replace(/(Mesečna rata:|Cuota mensual:|Mjesečna rata:)/, `<strong>${t('monthlyPayment')}</strong>`);
-    }
-    if (text.includes('Skupaj vrnete:') || text.includes('Total a devolver:') || text.includes('Ukupno za vratiti:')) {
-        el.innerHTML = text.replace(/(Skupaj vrnete:|Total a devolver:|Ukupno za vratiti:)/, `<strong>${t('totalReturn')}</strong>`);
-    }
-    if (text.includes('Skupne obresti:') || text.includes('Intereses totales:') || text.includes('Ukupne kamate:')) {
-        el.innerHTML = text.replace(/(Skupne obresti:|Intereses totales:|Ukupne kamate:)/, `<strong>${t('totalInterest')}</strong>`);
-    }
-});
 }
 function initializeLanguage() {
     const savedLanguage = localStorage.getItem('selectedLanguage');
