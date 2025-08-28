@@ -179,7 +179,40 @@ app.put('/api/admin/applications/:id/status', async (req, res) => {
         });
     }
 });
+// Admin: Supprimer une demande
+app.delete('/api/admin/applications/:id', async (req, res) => {
+    try {
+        const applicationId = req.params.id;
+        
+        // Supprimer d'abord tous les messages associés
+        await Message.deleteMany({ applicationId: applicationId });
+        
+        // Puis supprimer la demande
+        const deletedApplication = await Application.findOneAndDelete({ 
+            applicationId: applicationId 
+        });
 
+        if (!deletedApplication) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Demande non trouvée' 
+            });
+        }
+
+        console.log(`✅ Demande supprimée: ${applicationId}`);
+        
+        res.json({ 
+            success: true, 
+            message: 'Demande supprimée avec succès'
+        });
+    } catch (error) {
+        console.error('❌ Erreur suppression demande:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur serveur lors de la suppression' 
+        });
+    }
+});
 // Ajouter un message (user)
 app.post('/api/applications/:id/messages', async (req, res) => {
     try {
