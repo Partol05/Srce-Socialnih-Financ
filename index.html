@@ -1039,9 +1039,10 @@ function showUserDashboard(application) {
                         </button>
                     </div>
                     <div class="admin-buttons">
-                        <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
-                        <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
-                    </div>
+    <button class="approve-btn" onclick="updateApplicationStatus('${app.applicationId}', 'approved')">Odobri</button>
+    <button class="reject-btn" onclick="updateApplicationStatus('${app.applicationId}', 'rejected')">Zavrni</button>
+    <button class="delete-btn" onclick="deleteApplication('${app.applicationId}')">Izbriši</button>
+</div>
                     <div style="margin-top: 10px;">
                         <textarea placeholder="Sporočilo stranki..." id="adminMessage-${app.applicationId}" rows="2" style="width: 100%; margin-bottom: 5px;"></textarea>
                         <button onclick="sendAdminMessage('${app.applicationId}')" style="background: #3b82f6; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Pošlji sporočilo</button>
