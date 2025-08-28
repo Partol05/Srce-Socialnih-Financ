@@ -1079,7 +1079,29 @@ function showUserDashboard(application) {
                 showNotification('Napaka pri posodabljanju statusa', 'error');
             }
         }
-
+        // Fonction de suppression de demande
+async function deleteApplication(applicationId) {
+    // Confirmation avant suppression
+    const confirmDelete = confirm(`Êtes-vous sûr de vouloir supprimer définitivement la demande ${applicationId} ?`);
+    
+    if (!confirmDelete) {
+        return;
+    }
+    
+    try {
+        const response = await apiCall(`/admin/applications/${applicationId}`, 'DELETE');
+        
+        if (response.success) {
+            showNotification(`Demande ${applicationId} supprimée avec succès`, 'success');
+            // Recharger la liste des demandes
+            showAdminPanel();
+        } else {
+            showNotification('Erreur lors de la suppression', 'error');
+        }
+    } catch (error) {
+        showNotification('Erreur lors de la suppression de la demande', 'error');
+    }
+}
         // Messages
         async function sendAdminMessage(applicationId) {
             const messageText = document.getElementById(`adminMessage-${applicationId}`).value;
