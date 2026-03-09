@@ -1401,24 +1401,23 @@ async function deleteApplication(applicationId) {
 setTimeout(translatePage, 50);
         }
 
-       function calculateLoan() {
-    const amount = parseFloat(document.getElementById('amount').value);
-    const months = parseInt(document.getElementById('months').value);
-    
-    if (amount && months) {
-        const rate = 0.03; // 3% annuel
-        const monthlyRate = rate / 12;
-        const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
-        const total = monthlyPayment * months;
-        const interest = total - amount;
-        
-        document.getElementById('simulatorResult').innerHTML = `
-            <div>Mesečna rata: <strong>${monthlyPayment.toFixed(2)}€</strong></div>
-            <div>Skupaj vrnete: <strong>${total.toFixed(2)}€</strong></div>
-            <div>Skupne obresti: <strong>${interest.toFixed(2)}€</strong></div>
-        `;
-    }
-}
+        // Calculateur de crédit
+        function calculateLoan() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const months = parseInt(document.getElementById('months').value);
+            
+            if (amount && months) {
+                const rate = 0.03; // 3% annuel
+                const monthlyRate = rate / 12;
+                const monthlyPayment = amount * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+                const total = monthlyPayment * months;
+                const interest = total - amount;
+                
+                document.getElementById('simulatorResult').innerHTML = `
+                    <div>Mesečna rata: <strong>${monthlyPayment.toFixed(2)}€</strong></div>
+                    <div>Skupaj vrnete: <strong>${total.toFixed(2)}€</strong></div>
+                    <div>Skupne obresti: <strong>${interest.toFixed(2)}€</strong></div>
+                `;
             }
         }
 
